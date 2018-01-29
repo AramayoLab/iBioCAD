@@ -8,6 +8,8 @@
 
 import SceneKit
 import QuartzCore
+import ARAPubChemToolsOSX
+
 
 class GameViewController: NSViewController {
     

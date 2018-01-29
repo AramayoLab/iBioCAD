@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		EA3F8691201D2F4100F7CD23 /* ARAPubChemTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */; };
 		EA3F8693201D2F4B00F7CD23 /* ARAPubChemTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EA3F86AD201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */; };
+		EA3F86AF201F67E000F7CD23 /* ARAPubChemToolsOSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA43AE161FFFBAC4008BD4A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA43AE151FFFBAC4008BD4A4 /* AppDelegate.swift */; };
 		EA43AE181FFFBAC4008BD4A4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA43AE171FFFBAC4008BD4A4 /* GameViewController.swift */; };
 		EA43AE1A1FFFBAC4008BD4A4 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE191FFFBAC4008BD4A4 /* art.scnassets */; };
@@ -33,6 +35,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EA3F86AF201F67E000F7CD23 /* ARAPubChemToolsOSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,8 +55,8 @@
 
 /* Begin PBXFileReference section */
 		EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA3F8699201D307700F7CD23 /* ARAPubChemTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3F869B201D3A1D00F7CD23 /* BenzeneReaction1.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = BenzeneReaction1.scn; sourceTree = "<group>"; };
+		EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA43AE121FFFBAC4008BD4A4 /* iBioCAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iBioCAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA43AE151FFFBAC4008BD4A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA43AE171FFFBAC4008BD4A4 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA3F86AD201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +100,7 @@
 		EA3F8690201D2F4100F7CD23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA3F8699201D307700F7CD23 /* ARAPubChemTools.framework */,
+				EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */,
 				EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */,
 			);
 			name = Frameworks;
