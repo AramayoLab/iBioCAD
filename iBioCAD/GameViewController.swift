@@ -565,22 +565,19 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
             
             let scnView = self.view as! SCNView
 
-            /*
-            //if (bondOrder == 1 )
-            //{
+            if (bondOrder == 1 )
+            {
                 //1st Order
                 let bond_joint = SCNPhysicsBallSocketJoint(bodyA: aid1.physicsBody!,
                                                            anchorA: SCNVector3Make(-0.25, 0, 0),
                                                            bodyB: aid2.physicsBody!,
                                                            anchorB: SCNVector3Make(0.25, 0, 0))
                 scnView.scene?.physicsWorld.addBehavior(bond_joint)
-            ///}
- */
+            }
+ 
             
-            //if (bondOrder == 2 )
-            //{
-                //2nd order
-            
+            if (bondOrder == 2 )
+            {
                 //2nd order
                 let bond_joint_cone_twist = SCNPhysicsConeTwistJoint(bodyA: aid1.physicsBody!,
                                                          frameA: SCNMatrix4Identity,
@@ -599,12 +596,9 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
                                       anchorB: SCNVector3Make(0.25, 0, 0))
                 scnView.scene?.physicsWorld.addBehavior(bond_joint)
 
-            //}
-            
+            }
             i = i+1
- 
         }
-        
         centerAtoms(molecule: rna!)
     }
     

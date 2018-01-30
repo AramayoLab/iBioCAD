@@ -10,84 +10,129 @@ import UIKit
 import SceneKit
 import ARKit
 import ARAPubChemTools
+import ReplayKit
 
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet var searchTextField: UITextField!
+    
+    @IBOutlet var stopRecButton:UIButton!
+    @IBOutlet var startRecButton:UIButton!
+    
+    var pubChem:ARAPubChemToolbox!
     var molecule:SCNNode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        stopRecButton.isHidden = true;
+        startRecButton.isHidden = false;
+        
         // Set the view's delegate
         sceneView.delegate = self
-        
+        searchTextField.delegate = self
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
-        // Create a new scene
         let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        //let scene = SCNScene(named: "BenzeneReaction1.scn")!
 
-        //ARAPubChemToolbox Test Function
-        //ARAPubChemToolbox.printme_imdelicate()
-        
-        let t = ARAPubChemToolbox()
-        t.initToolbox(search_delegate: self, new_scene: scene)
-        //t.pubChem_compoundSearchByName(searchTerm: "benzene", record_type_3d: true)
-        t.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
+        pubChem = ARAPubChemToolbox()
+        pubChem.initToolbox(search_delegate: self, new_scene: scene)
         
         
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = .omni
+        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        scene.rootNode.addChildNode(lightNode)
         
-        //let v = ARAPubChemSearch.pubChem_compoudSearchByCID()
+        let ambientLightNode = SCNNode()
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = .ambient
+        ambientLightNode.light!.color = UIColor.darkGray
+        scene.rootNode.addChildNode(ambientLightNode)
         
         // Set the scene to the view
         sceneView.scene = scene
     }
     
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        // Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
         
-        if let touchLocation = touches.first?.location(in: sceneView) {
-            
-            // Touch to 3D Object
-            if let hit = sceneView.hitTest(touchLocation, options: nil).first {
-                hit.node.removeFromParentNode()
-                return
-            }
-            
-            // Touch to Feature Point
-            if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
-                sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
-            }
-        }
+        // Run the view's session
+        sceneView.session.run(configuration)
     }
     
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        if ( molecule != nil)
-        {
-            //let moleculeClone = molecule!.clone()
-            //molecule?.removeFromParentNode()
-            //molecule!.position = SCNVector3Make(0, 0, 0)
-            //node.addChildNode(molecule!)
-            
-            //let ship = sceneView.scene.rootNode.childNode(withName: "ship", recursively: true)
-            //ship!.addChildNode(moleculeClone)
-            
-            
-
-            let benzeneScene = SCNScene(named: "Benzene.scn")!
-            let benzene = benzeneScene.rootNode.childNode(withName: "Benzene", recursively: true)!
-            benzene.position = SCNVector3Make(0, 0, 0)
-            benzene.scale = SCNVector3Make(0.1, 0.1, 0.1)
-            node.addChildNode(benzene)
-
-        }
+        // Pause the view's session
+        sceneView.session.pause()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Release any cached data, images, etc that aren't in use.
+    }
+    
+    
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+        
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        
+    }
+    
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
+    }
+    
+    
+    @IBAction func startRecording(sender:Any)
+    {
+        RPScreenRecorder.shared().startRecording(handler: { error in
+            DispatchQueue.main.async {
+                self.stopRecButton.isHidden = false;
+                self.startRecButton.isHidden = true;
+            }
+        })
+
+    }
+    
+
+    @IBAction func stopRecording(sender:Any)
+    {
+        RPScreenRecorder.shared().stopRecording(handler: { (rpVC, error) in
+            self.present(rpVC!, animated: true, completion: { rpVC!.previewControllerDelegate = self })
+        })
+        
+    }
+    
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController)
+    {
+        
+        DispatchQueue.main.async {
+            self.stopRecButton.isHidden = true
+            self.startRecButton.isHidden = false
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchAction(sender: self)
+        return true
+    }
     
     func didReturnPubChemMolecule(moleculeNode:SCNNode)
     {
@@ -120,43 +165,65 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                 
             }}))
     }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-
-        // Run the view's session
-        sceneView.session.run(configuration)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Pause the view's session
-        sceneView.session.pause()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
 
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    @IBAction func searchAction(sender:Any)
+    {
+        self.searchTextField.resignFirstResponder()
+        
+        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+            print("Cancel")
+        }
+        actionSheetController.addAction(cancelActionButton)
+        
+        let searchByName_ActionButton = UIAlertAction(title: "Name", style: .default) { action -> Void in
+            self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchTextField.text!, record_type_3d: true)
+            
+        }
+        actionSheetController.addAction(searchByName_ActionButton)
+        
+        let searchByCID_ActionButton = UIAlertAction(title: "CID", style: .default) { action -> Void in
+            self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchTextField.text!, record_type_3d: false)
+            
+        }
+        actionSheetController.addAction(searchByCID_ActionButton)
+        self.present(actionSheetController, animated: true, completion: nil)
         
     }
     
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        
+        if let touchLocation = touches.first?.location(in: sceneView) {
+            
+            // Touch to 3D Object
+            if let hit = sceneView.hitTest(touchLocation, options: nil).first {
+                hit.node.removeFromParentNode()
+                return
+            }
+            
+            // Touch to Feature Point
+            if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
+                sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
+            }
+        }
     }
     
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
+        if ( molecule != nil)
+        {
+            let moleculeClone = molecule!.clone()
+            //molecule?.removeFromParentNode()
+            
+            moleculeClone.position = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
+            node.addChildNode(moleculeClone)
+        }
     }
+    
+    
 }
