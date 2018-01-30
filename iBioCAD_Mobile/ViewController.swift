@@ -39,6 +39,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         t.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
         
         
+        
         //let v = ARAPubChemSearch.pubChem_compoudSearchByCID()
         
         // Set the scene to the view
@@ -69,13 +70,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         if ( molecule != nil)
         {
             //let moleculeClone = molecule!.clone()
-            molecule?.removeFromParentNode()
-            molecule!.position = SCNVector3Make(0, 0, 0)
-            node.addChildNode(molecule!)
+            //molecule?.removeFromParentNode()
+            //molecule!.position = SCNVector3Make(0, 0, 0)
+            //node.addChildNode(molecule!)
             
             //let ship = sceneView.scene.rootNode.childNode(withName: "ship", recursively: true)
             //ship!.addChildNode(moleculeClone)
             
+            
+
+            let benzeneScene = SCNScene(named: "Benzene.scn")!
+            let benzene = benzeneScene.rootNode.childNode(withName: "Benzene", recursively: true)!
+            benzene.position = SCNVector3Make(0, 0, 0)
+            benzene.scale = SCNVector3Make(0.1, 0.1, 0.1)
+            node.addChildNode(benzene)
+
         }
     }
     
@@ -86,6 +95,30 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         print(moleculeNode)
         molecule = moleculeNode
         
+    }
+    
+    
+    func didFailToReturnPubChemMolecule(message:String, details:String)
+    {
+        print(message)
+        print(details)
+        
+        let alert = UIAlertController(title: message, message: details, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                print("default")
+                
+            case .cancel:
+                print("cancel")
+                
+            case .destructive:
+                print("destructive")
+                
+                
+            }}))
     }
     
     

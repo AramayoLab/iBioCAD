@@ -11,11 +11,12 @@ import QuartzCore
 import ARAPubChemToolsOSX
 
 
-class GameViewController: NSViewController {
+class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
     
     var rna: SCNNode?
     var average_vec:SCNVector3 = SCNVector3Zero
-    
+    var molecule:SCNNode?
+
     func centerAtoms(molecule:SCNNode)
     {
         for atom in molecule.childNodes
@@ -49,6 +50,10 @@ class GameViewController: NSViewController {
         rna?.position = SCNVector3(0,0,0)
         
         scene.rootNode.addChildNode(rna!)
+        scene.physicsWorld.speed = 0.1;
+        
+        
+        
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -90,6 +95,36 @@ class GameViewController: NSViewController {
         var gestureRecognizers = scnView.gestureRecognizers
         gestureRecognizers.insert(clickGesture, at: 0)
         scnView.gestureRecognizers = gestureRecognizers
+    }
+    
+    
+    func didReturnPubChemMolecule(moleculeNode:SCNNode)
+    {
+        print("didReturnPubChemMolecule")
+        print(moleculeNode)
+        molecule = moleculeNode
+        molecule?.removeFromParentNode()
+        molecule!.position = SCNVector3Make(0, 0, 0)
+        let scnView = self.view as! SCNView
+        scnView.scene?.rootNode.addChildNode(molecule!)
+    }
+    
+    
+    func didFailToReturnPubChemMolecule(message:String, details:String)
+    {
+        print(message)
+        print(details)
+        
+        let alert: NSAlert = NSAlert()
+        alert.messageText = message
+        alert.informativeText = details
+        alert.alertStyle = NSAlert.Style.warning
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
+        let res = alert.runModal()
+        if res == NSApplication.ModalResponse.alertFirstButtonReturn {
+            return
+        }
     }
     
     
@@ -135,7 +170,7 @@ class GameViewController: NSViewController {
         let url = URL(string: urlString)
         
         //fetching the data from the url
-        URLSession.shared.dataTask(with: (url as? URL)!, completionHandler: {(data, response, error) -> Void in
+        URLSession.shared.dataTask(with: (url)!, completionHandler: {(data, response, error) -> Void in
             
             if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary {
                 
@@ -530,32 +565,44 @@ class GameViewController: NSViewController {
             
             let scnView = self.view as! SCNView
 
-            
-            if (bondOrder == 1 )
-            {
+            /*
+            //if (bondOrder == 1 )
+            //{
                 //1st Order
                 let bond_joint = SCNPhysicsBallSocketJoint(bodyA: aid1.physicsBody!,
-                                                           anchorA: SCNVector3Make(-0.15, 0, 0),
+                                                           anchorA: SCNVector3Make(-0.25, 0, 0),
                                                            bodyB: aid2.physicsBody!,
-                                                           anchorB: SCNVector3Make(0.15, 0, 0))
+                                                           anchorB: SCNVector3Make(0.25, 0, 0))
                 scnView.scene?.physicsWorld.addBehavior(bond_joint)
-            }
+            ///}
+ */
             
-            if (bondOrder == 2 )
-            {
+            //if (bondOrder == 2 )
+            //{
                 //2nd order
             
+                //2nd order
+                let bond_joint_cone_twist = SCNPhysicsConeTwistJoint(bodyA: aid1.physicsBody!,
+                                                         frameA: SCNMatrix4Identity,
+                                                          bodyB: aid2.physicsBody!,
+                                                         frameB: SCNMatrix4Identity)
+                bond_joint_cone_twist.maximumTwistAngle = 0;
+                bond_joint_cone_twist.maximumAngularLimit1 = 0;
+                bond_joint_cone_twist.maximumAngularLimit2 = 0;
+                
+                
                 let bond_joint = SCNPhysicsHingeJoint.init(bodyA: aid1.physicsBody!,
-                                      axisA: SCNVector3Make(1, 0, 0),
-                                      anchorA: SCNVector3Make(-0.15, 0, 0),
+                                      axisA: SCNVector3Make(0, 0, 1),
+                                      anchorA: SCNVector3Make(-0.25, 0, 0),
                                       bodyB: aid2.physicsBody!,
-                                      axisB: SCNVector3Make(1, 0, 0),
-                                      anchorB: SCNVector3Make(0.15, 0, 0))
+                                      axisB: SCNVector3Make(0, 0, 1),
+                                      anchorB: SCNVector3Make(0.25, 0, 0))
                 scnView.scene?.physicsWorld.addBehavior(bond_joint)
 
-            }
+            //}
             
             i = i+1
+ 
         }
         
         centerAtoms(molecule: rna!)
@@ -613,10 +660,21 @@ class GameViewController: NSViewController {
     @objc
     func handleClick(_ gestureRecognizer: NSGestureRecognizer) {
 
-        let scnView = self.view as! SCNView
         
-        //self.pubChem_compoundSearchByName(searchTerm:"benzene", record_type: "3d") //Make sure to look up a broken gvalue here for robustness and replace ! with ?
-        self.pubChem_compoudSearchByCID(searchTerm:"86583373", record_type: "") //some 2d RNA with no conformer
+        let scnView = self.view as! SCNView
+
+        /*
+         //FILEBUG: why adding the physics properties is so tricky? I don't see any of them implemented properly with this framework on OSX but it works on iOS
+        let t = ARAPubChemToolbox()
+        t.initToolbox(search_delegate: self, new_scene: scnView.scene!)
+        //t.pubChem_compoundSearchByName(searchTerm: "benzene", record_type_3d: true)
+        t.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
+ 
+        return
+        */
+        
+        self.pubChem_compoundSearchByName(searchTerm:"benzene", record_type: "3d") //Make sure to look up a broken gvalue here for robustness and replace ! with ?
+        //self.pubChem_compoudSearchByCID(searchTerm:"86583373", record_type: "") //some 2d RNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"16197306", record_type: "") //some 2d DNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"11979623", record_type: "") //some 2d Double strand of RNA with no conformer
         
