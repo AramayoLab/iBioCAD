@@ -14,6 +14,7 @@ import ReplayKit
 
 
 class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate {
+    
 
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var searchTextField: UITextField!
@@ -23,6 +24,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     var pubChem:ARAPubChemToolbox!
     var molecule:SCNNode?
+    var moleculeJSONNSDictionary:NSDictionary?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +38,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene(named: "art.scnassets/µEppendorf.scn")!
 
         pubChem = ARAPubChemToolbox()
-        pubChem.initToolbox(search_delegate: self, new_scene: scene)
+        pubChem.initToolbox(search_delegate: self)
         
         
         let lightNode = SCNNode()
@@ -134,12 +136,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         return true
     }
     
-    func didReturnPubChemMolecule(moleculeNode:SCNNode)
+    func didReturnPubChemMolecule(moleculeNode:NSDictionary)
     {
         print("didReturnPubChemMolecule")
         print(moleculeNode)
-        molecule = moleculeNode
-        
+        moleculeJSONNSDictionary = moleculeNode
     }
     
     
@@ -215,14 +216,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
-        if ( molecule != nil)
-        {
-            let moleculeClone = molecule!.clone()
-            //molecule?.removeFromParentNode()
-            
-            moleculeClone.position = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
-            node.addChildNode(moleculeClone)
-        }
+        let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
+
+        self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
+                                         targetScene: sceneView.scene,
+                                         targetNode:node,
+                                         position:sceneCamPos)
+    
     }
     
     
