@@ -13,9 +13,14 @@ import ARAPubChemToolsOSX
 
 class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
     
+    
     var rna: SCNNode?
     var average_vec:SCNVector3 = SCNVector3Zero
+    
+    var pubChem:ARAPubChemToolbox!
     var molecule:SCNNode?
+    var moleculeJSONNSDictionary:NSDictionary?
+
 
     func centerAtoms(molecule:SCNNode)
     {
@@ -52,8 +57,8 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
         scene.rootNode.addChildNode(rna!)
         scene.physicsWorld.speed = 0.1;
         
-        
-        
+        pubChem = ARAPubChemToolbox()
+        pubChem.initToolbox(search_delegate: self)
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -98,15 +103,21 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
     }
     
     
-    func didReturnPubChemMolecule(moleculeNode:SCNNode)
+    func didReturnPubChemMolecule(moleculeNode:NSDictionary)
     {
         print("didReturnPubChemMolecule")
         print(moleculeNode)
-        molecule = moleculeNode
-        molecule?.removeFromParentNode()
-        molecule!.position = SCNVector3Make(0, 0, 0)
-        let scnView = self.view as! SCNView
-        scnView.scene?.rootNode.addChildNode(molecule!)
+
+        moleculeJSONNSDictionary = moleculeNode
+        let sceneView = self.view as! SCNView
+        
+        let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
+        DispatchQueue.main.async {
+            self.pubChem.loadPubChemMolecule(jsonResponse: self.moleculeJSONNSDictionary!,
+                                             targetScene: sceneView.scene!,
+                                             targetNode:(sceneView.scene?.rootNode)!,
+                                             targetPosition:sceneCamPos)
+        }
     }
     
     
@@ -656,22 +667,14 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
 
         
         let scnView = self.view as! SCNView
-
-        /*
-         //FILEBUG: why adding the physics properties is so tricky? I don't see any of them implemented properly with this framework on OSX but it works on iOS
-        let t = ARAPubChemToolbox()
-        t.initToolbox(search_delegate: self, new_scene: scnView.scene!)
-        //t.pubChem_compoundSearchByName(searchTerm: "benzene", record_type_3d: true)
-        t.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
- 
-        return
-        */
         
-        self.pubChem_compoundSearchByName(searchTerm:"benzene", record_type: "3d") //Make sure to look up a broken gvalue here for robustness and replace ! with ?
+        //self.pubChem_compoundSearchByName(searchTerm:"benzene", record_type: "3d") //Make sure to look up a broken gvalue here for robustness and replace ! with ?
         //self.pubChem_compoudSearchByCID(searchTerm:"86583373", record_type: "") //some 2d RNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"16197306", record_type: "") //some 2d DNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"11979623", record_type: "") //some 2d Double strand of RNA with no conformer
         
+        //self.pubChem.pubChem_compoudSearchByCID(searchTerm: "11979623", record_type_3d:false)
+        self.pubChem.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
         
         // check what nodes are clicked
         let p = gestureRecognizer.location(in: scnView)
