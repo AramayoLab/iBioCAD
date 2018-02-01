@@ -9,13 +9,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "iBioCAD_Mobile/ViewController.swift"
-            timestampString = "539204245.927248"
+            filePath = "../ARAPubChemTools/ARAPubChemTools/ARAPubChemToolbox.swift"
+            timestampString = "539204873.0577461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "touchesBegan(_:with:)"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "loadPubChemMolecule(jsonResponse:targetScene:targetNode:targetPosition:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ARAPubChemTools/ARAPubChemTools/ARAPubChemToolbox.swift"
+            timestampString = "539204873.0581729"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "loadPubChemMolecule(jsonResponse:targetScene:targetNode:targetPosition:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../ARAPubChemTools/ARAPubChemTools/ARAPubChemToolbox.swift"
+            timestampString = "539204873.058478"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
+            landmarkName = "loadPubChemMolecule(jsonResponse:targetScene:targetNode:targetPosition:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

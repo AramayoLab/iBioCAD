@@ -221,7 +221,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
                                          targetScene: sceneView.scene,
                                          targetNode:node,
-                                         position:sceneCamPos)
+                                         targetPosition:sceneCamPos)
     
     }
     
