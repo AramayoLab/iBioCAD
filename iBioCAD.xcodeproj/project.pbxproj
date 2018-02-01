@@ -18,14 +18,12 @@
 		EA43AE1C1FFFBAC4008BD4A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1B1FFFBAC4008BD4A4 /* Assets.xcassets */; };
 		EA43AE1F1FFFBAC4008BD4A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1D1FFFBAC4008BD4A4 /* Main.storyboard */; };
 		EA43AE291FFFBAEA008BD4A4 /* Benzene.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */; };
-		EA43AE2A1FFFBAEA008BD4A4 /* BenzeneReaction1.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE281FFFBAEA008BD4A4 /* BenzeneReaction1.scn */; };
 		EAD7BF8D201D130C006E0A9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */; };
 		EAD7BF8F201D130C006E0A9B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD7BF8E201D130C006E0A9B /* art.scnassets */; };
 		EAD7BF91201D130C006E0A9B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7BF90201D130C006E0A9B /* ViewController.swift */; };
 		EAD7BF94201D130C006E0A9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAD7BF92201D130C006E0A9B /* Main.storyboard */; };
 		EAD7BF96201D130C006E0A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD7BF95201D130C006E0A9B /* Assets.xcassets */; };
 		EAD7BF99201D130C006E0A9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAD7BF97201D130C006E0A9B /* LaunchScreen.storyboard */; };
-		EAD7BFB4201D1CD3006E0A9B /* BenzeneReaction1.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE281FFFBAEA008BD4A4 /* BenzeneReaction1.scn */; };
 		EAD7BFB5201D1CDB006E0A9B /* Benzene.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */; };
 /* End PBXBuildFile section */
 
@@ -56,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA3F869B201D3A1D00F7CD23 /* BenzeneReaction1.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = BenzeneReaction1.scn; sourceTree = "<group>"; };
 		EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3F86B12020B1F900F7CD23 /* Benzene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Benzene.scn; sourceTree = "<group>"; };
 		EA3F86B22021170200F7CD23 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -69,7 +66,6 @@
 		EA43AE201FFFBAC4008BD4A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA43AE211FFFBAC4008BD4A4 /* iBioCAD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iBioCAD.entitlements; sourceTree = "<group>"; };
 		EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Benzene.scn; sourceTree = "<group>"; };
-		EA43AE281FFFBAEA008BD4A4 /* BenzeneReaction1.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = BenzeneReaction1.scn; sourceTree = "<group>"; };
 		EAD7BF8A201D130C006E0A9B /* iBioCAD_Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iBioCAD_Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAD7BF8E201D130C006E0A9B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -137,7 +133,6 @@
 				EA43AE171FFFBAC4008BD4A4 /* GameViewController.swift */,
 				EA43AE191FFFBAC4008BD4A4 /* art.scnassets */,
 				EA43AE1B1FFFBAC4008BD4A4 /* Assets.xcassets */,
-				EA3F869B201D3A1D00F7CD23 /* BenzeneReaction1.scn */,
 				EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */,
 				EA43AE1D1FFFBAC4008BD4A4 /* Main.storyboard */,
 				EA43AE201FFFBAC4008BD4A4 /* Info.plist */,
@@ -151,7 +146,6 @@
 			children = (
 				EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */,
 				EAD7BF90201D130C006E0A9B /* ViewController.swift */,
-				EA43AE281FFFBAEA008BD4A4 /* BenzeneReaction1.scn */,
 				EA3F86B12020B1F900F7CD23 /* Benzene.scn */,
 				EAD7BF8E201D130C006E0A9B /* art.scnassets */,
 				EAD7BF92201D130C006E0A9B /* Main.storyboard */,
@@ -256,7 +250,6 @@
 				EA43AE291FFFBAEA008BD4A4 /* Benzene.scn in Resources */,
 				EA43AE1F1FFFBAC4008BD4A4 /* Main.storyboard in Resources */,
 				EA43AE1C1FFFBAC4008BD4A4 /* Assets.xcassets in Resources */,
-				EA43AE2A1FFFBAEA008BD4A4 /* BenzeneReaction1.scn in Resources */,
 				EA43AE1A1FFFBAC4008BD4A4 /* art.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +262,6 @@
 				EAD7BF8F201D130C006E0A9B /* art.scnassets in Resources */,
 				EAD7BF99201D130C006E0A9B /* LaunchScreen.storyboard in Resources */,
 				EAD7BF96201D130C006E0A9B /* Assets.xcassets in Resources */,
-				EAD7BFB4201D1CD3006E0A9B /* BenzeneReaction1.scn in Resources */,
 				EAD7BF94201D130C006E0A9B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
