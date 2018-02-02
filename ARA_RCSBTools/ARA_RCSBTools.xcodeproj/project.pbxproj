@@ -1,0 +1,457 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EA41D0EF2024CE9500C3D6F2 /* ARA_RCSBTools.h in Headers */ = {isa = PBXBuildFile; fileRef = EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EA41D1012024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
+		EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARA_RCSBTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARA_RCSBTools.h; sourceTree = "<group>"; };
+		EA41D0EE2024CE9500C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARA_RCSBToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARA_RCSBToolsOSX.h; sourceTree = "<group>"; };
+		EA41D1002024CF0300C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARA_RCSBToolbox.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA41D0E62024CE9500C3D6F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA41D0F92024CF0300C3D6F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EA41D0E02024CE9500C3D6F2 = {
+			isa = PBXGroup;
+			children = (
+				EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */,
+				EA41D0FE2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */,
+				EA41D0EB2024CE9500C3D6F2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EA41D0EB2024CE9500C3D6F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */,
+				EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */ = {
+			isa = PBXGroup;
+			children = (
+				EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */,
+				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
+				EA41D0EE2024CE9500C3D6F2 /* Info.plist */,
+			);
+			path = ARA_RCSBTools;
+			sourceTree = "<group>";
+		};
+		EA41D0FE2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */ = {
+			isa = PBXGroup;
+			children = (
+				EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */,
+				EA41D1002024CF0300C3D6F2 /* Info.plist */,
+			);
+			path = ARA_RCSBToolsOSX;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EA41D0E72024CE9500C3D6F2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA41D0EF2024CE9500C3D6F2 /* ARA_RCSBTools.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA41D0FA2024CF0300C3D6F2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA41D1012024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EA41D0E92024CE9500C3D6F2 /* ARA_RCSBTools */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA41D0F22024CE9500C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBTools" */;
+			buildPhases = (
+				EA41D0E52024CE9500C3D6F2 /* Sources */,
+				EA41D0E62024CE9500C3D6F2 /* Frameworks */,
+				EA41D0E72024CE9500C3D6F2 /* Headers */,
+				EA41D0E82024CE9500C3D6F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARA_RCSBTools;
+			productName = ARA_RCSBTools;
+			productReference = EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EA41D0FC2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA41D1042024CF0300C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBToolsOSX" */;
+			buildPhases = (
+				EA41D0F82024CF0300C3D6F2 /* Sources */,
+				EA41D0F92024CF0300C3D6F2 /* Frameworks */,
+				EA41D0FA2024CF0300C3D6F2 /* Headers */,
+				EA41D0FB2024CF0300C3D6F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARA_RCSBToolsOSX;
+			productName = ARA_RCSBToolsOSX;
+			productReference = EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA41D0E12024CE9500C3D6F2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = OrbitusBiomedical;
+				TargetAttributes = {
+					EA41D0E92024CE9500C3D6F2 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					EA41D0FC2024CF0300C3D6F2 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = EA41D0E42024CE9500C3D6F2 /* Build configuration list for PBXProject "ARA_RCSBTools" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EA41D0E02024CE9500C3D6F2;
+			productRefGroup = EA41D0EB2024CE9500C3D6F2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA41D0E92024CE9500C3D6F2 /* ARA_RCSBTools */,
+				EA41D0FC2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA41D0E82024CE9500C3D6F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA41D0FB2024CF0300C3D6F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA41D0E52024CE9500C3D6F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA41D0F82024CF0300C3D6F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EA41D0F02024CE9500C3D6F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EA41D0F12024CE9500C3D6F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EA41D0F32024CE9500C3D6F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 975CAGD5EW;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBTools";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EA41D0F42024CE9500C3D6F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 975CAGD5EW;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBTools";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EA41D1022024CF0300C3D6F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 975CAGD5EW;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBToolsOSX";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		EA41D1032024CF0300C3D6F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 975CAGD5EW;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBToolsOSX";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA41D0E42024CE9500C3D6F2 /* Build configuration list for PBXProject "ARA_RCSBTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA41D0F02024CE9500C3D6F2 /* Debug */,
+				EA41D0F12024CE9500C3D6F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA41D0F22024CE9500C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBTools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA41D0F32024CE9500C3D6F2 /* Debug */,
+				EA41D0F42024CE9500C3D6F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA41D1042024CF0300C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBToolsOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA41D1022024CF0300C3D6F2 /* Debug */,
+				EA41D1032024CF0300C3D6F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA41D0E12024CE9500C3D6F2 /* Project object */;
+}

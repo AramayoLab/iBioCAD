@@ -5,6 +5,9 @@
       location = "absolute:/Users/rudyaramayo/Desktop/iBioCAD/iBioCAD.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:ARA_RCSBTools/ARA_RCSBTools.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:../ARAPubChemTools/ARAPubChemTools.xcodeproj">
    </FileRef>
 </Workspace>

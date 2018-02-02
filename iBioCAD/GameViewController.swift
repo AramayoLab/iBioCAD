@@ -9,7 +9,7 @@
 import SceneKit
 import QuartzCore
 import ARAPubChemToolsOSX
-
+import ARA_RCSBToolsOSX
 
 class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
     
