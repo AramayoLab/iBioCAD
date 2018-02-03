@@ -10,7 +10,4 @@
    <FileRef
       location = "group:../ARAPubChemTools/ARAPubChemTools.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:ARACoreUtils/ARACoreUtils.xcodeproj">
-   </FileRef>
 </Workspace>

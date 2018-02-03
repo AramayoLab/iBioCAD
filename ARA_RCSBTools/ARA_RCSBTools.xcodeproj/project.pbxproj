@@ -11,7 +11,7 @@
 		EA41D1012024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
 		EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
-		EAC6764420251E7900FF2542 /* ARACoreUtilsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */; };
+		EAAF1C0320263D040012149D /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C0220263D040012149D /* ARACoreUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +22,7 @@
 		EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARA_RCSBToolsOSX.h; sourceTree = "<group>"; };
 		EA41D1002024CF0300C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARA_RCSBToolbox.swift; sourceTree = "<group>"; };
-		EAC6764320251E6E00FF2542 /* ARACoreUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARACoreUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARACoreUtilsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAAF1C0220263D040012149D /* ARACoreUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ARACoreUtils.swift; path = ../../ARACoreUtils/ARACoreUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAC6764420251E7900FF2542 /* ARACoreUtilsOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +65,7 @@
 		EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */ = {
 			isa = PBXGroup;
 			children = (
+				EAAF1C0220263D040012149D /* ARACoreUtils.swift */,
 				EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */,
 				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
 				EA41D0EE2024CE9500C3D6F2 /* Info.plist */,
@@ -86,8 +85,6 @@
 		EAC6764120251E6E00FF2542 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */,
-				EAC6764320251E6E00FF2542 /* ARACoreUtils.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+				EAAF1C0320263D040012149D /* ARACoreUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +348,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ARA_RCSBTools",
+				);
 				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -373,6 +375,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ARA_RCSBTools",
+				);
 				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -396,6 +402,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ARA_RCSBToolsOSX",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -422,6 +432,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ARA_RCSBToolsOSX",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

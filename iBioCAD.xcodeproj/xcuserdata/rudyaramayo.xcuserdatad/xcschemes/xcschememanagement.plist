@@ -12,12 +12,17 @@
 		<key>iBioCAD_Mobile.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>EA43AE111FFFBAC4008BD4A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EAD7BF89201D130C006E0A9B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

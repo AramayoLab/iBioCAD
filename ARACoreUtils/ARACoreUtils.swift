@@ -10,9 +10,15 @@ import Foundation
 
 
 #if os(macOS)
+    
+import Cocoa
     typealias Color = NSColor
+
 #else
+    
+import UIKit
     typealias Color = UIColor
+
 #endif
     
 public class ARACoreUtils: NSObject {

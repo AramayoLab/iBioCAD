@@ -7,7 +7,6 @@
 //
 
 import Foundation
-//import ARACoreUtils
 
 
 public protocol ARA_RCSB_PDBSearchDelegate {
@@ -86,8 +85,9 @@ public class ARA_RCSBToolbox: NSObject {
         let atom_charge = String(pdb_entry[78...79])
         
         //ATOM 52 NH1BARG A -3    14.338 86.056 88.706 0.50 40.23 N
-        //let color = ARACoreUtils.getAtom_color(element:6); //Carbon = 6
-        //print(color)
+        let color = ARACoreUtils.getAtom_color(element:6); //Carbon = 6
+        print(color)
+        //let v = ARACoreUtils()
         
         print(atom_id)
         print(atom_name)
