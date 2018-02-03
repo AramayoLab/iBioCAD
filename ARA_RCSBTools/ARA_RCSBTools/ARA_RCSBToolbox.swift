@@ -37,12 +37,17 @@ public class ARA_RCSBToolbox: NSObject {
         self.getDataFromUrl(urlString: url) { (data, response, error ) in
             
             let x = String.init(data:data!, encoding:.utf8)
-            var pdbArray = x!.components(separatedBy: "\n")
+            let pdbArray = x!.components(separatedBy: "\n")
 
             
             for pdb_entry in pdbArray
             {
                 //print(pdb_entry)
+                if (pdb_entry.starts(with: "<!DOCTYPE HTML PUBLIC"))
+                {
+                    self.delegate.didFailToReturnPubPDB(message: "PDB Not Found", details: "")
+                    return
+                }
                 if (pdb_entry != "")
                 {
                     let entry_type = String(pdb_entry[0...5])

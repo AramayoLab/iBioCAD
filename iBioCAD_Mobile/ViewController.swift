@@ -151,9 +151,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     func didFailToReturnPubChemMolecule(message:String, details:String)
     {
-        print(message)
-        print(details)
-        
+        self.didFailAlert(message:message , details:details)
+    }
+
+    
+    func didFailAlert(message:String, details:String)
+    {
+    
         let alert = UIAlertController(title: message, message: details, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -171,7 +175,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                 
             }}))
     }
-
+    
     
     func didReturnPDB(pdb:NSDictionary)
     {
@@ -181,7 +185,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     func didFailToReturnPubPDB(message:String, details:String)
     {
-        print("didFailToReturnPubPDB")
+        self.didFailAlert(message:message , details:details)
     }
     
 
@@ -210,7 +214,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         
         let searchByPDB_ActionButton = UIAlertAction(title: "PDB", style: .default) { action -> Void in
-            self.rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
+            self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchTextField.text!)
         }
         actionSheetController.addAction(searchByPDB_ActionButton)
 
