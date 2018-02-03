@@ -9,11 +9,13 @@
 import UIKit
 import SceneKit
 import ARKit
-import ARAPubChemTools
 import ReplayKit
 
+import ARAPubChemTools
+import ARA_RCSBTools
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate {
+
+class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate {
     
 
     @IBOutlet var sceneView: ARSCNView!
@@ -23,6 +25,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     @IBOutlet var startRecButton:UIButton!
     
     var pubChem:ARAPubChemToolbox!
+    var rcsb:ARA_RCSBToolbox!
+    
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
     
@@ -43,7 +47,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         pubChem = ARAPubChemToolbox()
         pubChem.initToolbox(search_delegate: self)
         
-        
+        rcsb = ARA_RCSBToolbox()
+        rcsb.initToolbox(search_delegate: self)
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
@@ -168,6 +173,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
 
     
+    func didReturnPDB(pdb:NSDictionary)
+    {
+        print("didReturnPDB")
+    }
+    
+    
+    func didFailToReturnPubPDB(message:String, details:String)
+    {
+        print("didFailToReturnPubPDB")
+    }
+    
+
     @IBAction func searchAction(sender:Any)
     {
         self.searchTextField.resignFirstResponder()
@@ -179,17 +196,25 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         }
         actionSheetController.addAction(cancelActionButton)
         
+        
         let searchByName_ActionButton = UIAlertAction(title: "Name", style: .default) { action -> Void in
             self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchTextField.text!, record_type_3d: true)
-            
         }
         actionSheetController.addAction(searchByName_ActionButton)
         
+        
         let searchByCID_ActionButton = UIAlertAction(title: "CID", style: .default) { action -> Void in
             self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchTextField.text!, record_type_3d: false)
-            
         }
         actionSheetController.addAction(searchByCID_ActionButton)
+        
+        
+        let searchByPDB_ActionButton = UIAlertAction(title: "PDB", style: .default) { action -> Void in
+            self.rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
+        }
+        actionSheetController.addAction(searchByPDB_ActionButton)
+
+
         self.present(actionSheetController, animated: true, completion: nil)
         
     }
@@ -218,6 +243,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
 
+        
+        
         self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
                                          targetScene: sceneView.scene,
                                          targetNode:node,

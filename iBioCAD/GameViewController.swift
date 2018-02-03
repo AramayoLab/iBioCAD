@@ -11,13 +11,15 @@ import QuartzCore
 import ARAPubChemToolsOSX
 import ARA_RCSBToolsOSX
 
-class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
+class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate {
     
     
     var rna: SCNNode?
     var average_vec:SCNVector3 = SCNVector3Zero
     
     var pubChem:ARAPubChemToolbox!
+    var rcsb:ARA_RCSBToolbox!
+    
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
 
@@ -30,6 +32,9 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
         
         pubChem = ARAPubChemToolbox()
         pubChem.initToolbox(search_delegate: self)
+        
+        rcsb = ARA_RCSBToolbox()
+        rcsb.initToolbox(search_delegate: self)
         
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -58,8 +63,6 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
         scene.rootNode.addChildNode(benzene)
         */
         
-        
-        
         let scnView = self.view as! SCNView
         scnView.scene = scene
         scnView.allowsCameraControl = true
@@ -71,6 +74,18 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
         var gestureRecognizers = scnView.gestureRecognizers
         gestureRecognizers.insert(clickGesture, at: 0)
         scnView.gestureRecognizers = gestureRecognizers
+    }
+    
+    
+    func didReturnPDB(pdb:NSDictionary)
+    {
+        print("didReturnPDB")
+    }
+    
+    
+    func didFailToReturnPubPDB(message:String, details:String)
+    {
+        print("didFailToReturnPubPDB")
     }
     
     
@@ -110,7 +125,6 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
     }
     
     
-    
     @objc
     @IBAction func saveBioScriptAction(sender:AnyObject)
     {
@@ -148,7 +162,11 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate {
         //self.pubChem_compoudSearchByCID(searchTerm:"11979623", record_type: "") //some 2d Double strand of RNA with no conformer
         
         //self.pubChem.pubChem_compoudSearchByCID(searchTerm: "11979623", record_type_3d:false)
-        self.pubChem.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
+        //self.pubChem.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
+        
+        
+        rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
+        
         
         // check what nodes are clicked
         let p = gestureRecognizer.location(in: scnView)

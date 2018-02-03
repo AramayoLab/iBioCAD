@@ -7,197 +7,183 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA41D0EF2024CE9500C3D6F2 /* ARA_RCSBTools.h in Headers */ = {isa = PBXBuildFile; fileRef = EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EA41D1012024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
-		EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
-		EAC6764420251E7900FF2542 /* ARACoreUtilsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */; };
+		EAC6762B20251D5F00FF2542 /* ARACoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC6762920251D5F00FF2542 /* ARACoreUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EAC6763A20251D7200FF2542 /* ARACoreUtilsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC6763820251D7200FF2542 /* ARACoreUtilsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EAC6763F20251D8900FF2542 /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6763E20251D8900FF2542 /* ARACoreUtils.swift */; };
+		EAC6764020251D8900FF2542 /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC6763E20251D8900FF2542 /* ARACoreUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARA_RCSBTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARA_RCSBTools.h; sourceTree = "<group>"; };
-		EA41D0EE2024CE9500C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARA_RCSBToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARA_RCSBToolsOSX.h; sourceTree = "<group>"; };
-		EA41D1002024CF0300C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARA_RCSBToolbox.swift; sourceTree = "<group>"; };
-		EAC6764320251E6E00FF2542 /* ARACoreUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARACoreUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARACoreUtilsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAC6762620251D5F00FF2542 /* ARACoreUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARACoreUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAC6762920251D5F00FF2542 /* ARACoreUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARACoreUtils.h; sourceTree = "<group>"; };
+		EAC6762A20251D5F00FF2542 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAC6763620251D7200FF2542 /* ARACoreUtilsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARACoreUtilsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAC6763820251D7200FF2542 /* ARACoreUtilsOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARACoreUtilsOSX.h; sourceTree = "<group>"; };
+		EAC6763920251D7200FF2542 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAC6763E20251D8900FF2542 /* ARACoreUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARACoreUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EA41D0E62024CE9500C3D6F2 /* Frameworks */ = {
+		EAC6762220251D5F00FF2542 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA41D0F92024CF0300C3D6F2 /* Frameworks */ = {
+		EAC6763220251D7200FF2542 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAC6764420251E7900FF2542 /* ARACoreUtilsOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EA41D0E02024CE9500C3D6F2 = {
+		EAC6761C20251D5F00FF2542 = {
 			isa = PBXGroup;
 			children = (
-				EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */,
-				EA41D0FE2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */,
-				EA41D0EB2024CE9500C3D6F2 /* Products */,
-				EAC6764120251E6E00FF2542 /* Frameworks */,
+				EAC6762820251D5F00FF2542 /* ARACoreUtils */,
+				EAC6763720251D7200FF2542 /* ARACoreUtilsOSX */,
+				EAC6762720251D5F00FF2542 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		EA41D0EB2024CE9500C3D6F2 /* Products */ = {
+		EAC6762720251D5F00FF2542 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */,
-				EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */,
+				EAC6762620251D5F00FF2542 /* ARACoreUtils.framework */,
+				EAC6763620251D7200FF2542 /* ARACoreUtilsOSX.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */ = {
+		EAC6762820251D5F00FF2542 /* ARACoreUtils */ = {
 			isa = PBXGroup;
 			children = (
-				EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */,
-				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
-				EA41D0EE2024CE9500C3D6F2 /* Info.plist */,
+				EAC6762920251D5F00FF2542 /* ARACoreUtils.h */,
+				EAC6763E20251D8900FF2542 /* ARACoreUtils.swift */,
+				EAC6762A20251D5F00FF2542 /* Info.plist */,
 			);
-			path = ARA_RCSBTools;
+			path = ARACoreUtils;
 			sourceTree = "<group>";
 		};
-		EA41D0FE2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */ = {
+		EAC6763720251D7200FF2542 /* ARACoreUtilsOSX */ = {
 			isa = PBXGroup;
 			children = (
-				EA41D0FF2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h */,
-				EA41D1002024CF0300C3D6F2 /* Info.plist */,
+				EAC6763820251D7200FF2542 /* ARACoreUtilsOSX.h */,
+				EAC6763920251D7200FF2542 /* Info.plist */,
 			);
-			path = ARA_RCSBToolsOSX;
-			sourceTree = "<group>";
-		};
-		EAC6764120251E6E00FF2542 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				EAC6764520251E7900FF2542 /* ARACoreUtilsOSX.framework */,
-				EAC6764320251E6E00FF2542 /* ARACoreUtils.framework */,
-			);
-			name = Frameworks;
+			path = ARACoreUtilsOSX;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		EA41D0E72024CE9500C3D6F2 /* Headers */ = {
+		EAC6762320251D5F00FF2542 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA41D0EF2024CE9500C3D6F2 /* ARA_RCSBTools.h in Headers */,
+				EAC6762B20251D5F00FF2542 /* ARACoreUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA41D0FA2024CF0300C3D6F2 /* Headers */ = {
+		EAC6763320251D7200FF2542 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA41D1012024CF0300C3D6F2 /* ARA_RCSBToolsOSX.h in Headers */,
+				EAC6763A20251D7200FF2542 /* ARACoreUtilsOSX.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EA41D0E92024CE9500C3D6F2 /* ARA_RCSBTools */ = {
+		EAC6762520251D5F00FF2542 /* ARACoreUtils */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA41D0F22024CE9500C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBTools" */;
+			buildConfigurationList = EAC6762E20251D5F00FF2542 /* Build configuration list for PBXNativeTarget "ARACoreUtils" */;
 			buildPhases = (
-				EA41D0E52024CE9500C3D6F2 /* Sources */,
-				EA41D0E62024CE9500C3D6F2 /* Frameworks */,
-				EA41D0E72024CE9500C3D6F2 /* Headers */,
-				EA41D0E82024CE9500C3D6F2 /* Resources */,
+				EAC6762120251D5F00FF2542 /* Sources */,
+				EAC6762220251D5F00FF2542 /* Frameworks */,
+				EAC6762320251D5F00FF2542 /* Headers */,
+				EAC6762420251D5F00FF2542 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ARA_RCSBTools;
-			productName = ARA_RCSBTools;
-			productReference = EA41D0EA2024CE9500C3D6F2 /* ARA_RCSBTools.framework */;
+			name = ARACoreUtils;
+			productName = ARACoreUtils;
+			productReference = EAC6762620251D5F00FF2542 /* ARACoreUtils.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		EA41D0FC2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */ = {
+		EAC6763520251D7200FF2542 /* ARACoreUtilsOSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA41D1042024CF0300C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBToolsOSX" */;
+			buildConfigurationList = EAC6763B20251D7200FF2542 /* Build configuration list for PBXNativeTarget "ARACoreUtilsOSX" */;
 			buildPhases = (
-				EA41D0F82024CF0300C3D6F2 /* Sources */,
-				EA41D0F92024CF0300C3D6F2 /* Frameworks */,
-				EA41D0FA2024CF0300C3D6F2 /* Headers */,
-				EA41D0FB2024CF0300C3D6F2 /* Resources */,
+				EAC6763120251D7200FF2542 /* Sources */,
+				EAC6763220251D7200FF2542 /* Frameworks */,
+				EAC6763320251D7200FF2542 /* Headers */,
+				EAC6763420251D7200FF2542 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ARA_RCSBToolsOSX;
-			productName = ARA_RCSBToolsOSX;
-			productReference = EA41D0FD2024CF0300C3D6F2 /* ARA_RCSBToolsOSX.framework */;
+			name = ARACoreUtilsOSX;
+			productName = ARACoreUtilsOSX;
+			productReference = EAC6763620251D7200FF2542 /* ARACoreUtilsOSX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EA41D0E12024CE9500C3D6F2 /* Project object */ = {
+		EAC6761D20251D5F00FF2542 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = OrbitusBiomedical;
 				TargetAttributes = {
-					EA41D0E92024CE9500C3D6F2 = {
+					EAC6762520251D5F00FF2542 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
-					EA41D0FC2024CF0300C3D6F2 = {
+					EAC6763520251D7200FF2542 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = EA41D0E42024CE9500C3D6F2 /* Build configuration list for PBXProject "ARA_RCSBTools" */;
+			buildConfigurationList = EAC6762020251D5F00FF2542 /* Build configuration list for PBXProject "ARACoreUtils" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = EA41D0E02024CE9500C3D6F2;
-			productRefGroup = EA41D0EB2024CE9500C3D6F2 /* Products */;
+			mainGroup = EAC6761C20251D5F00FF2542;
+			productRefGroup = EAC6762720251D5F00FF2542 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA41D0E92024CE9500C3D6F2 /* ARA_RCSBTools */,
-				EA41D0FC2024CF0300C3D6F2 /* ARA_RCSBToolsOSX */,
+				EAC6762520251D5F00FF2542 /* ARACoreUtils */,
+				EAC6763520251D7200FF2542 /* ARACoreUtilsOSX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		EA41D0E82024CE9500C3D6F2 /* Resources */ = {
+		EAC6762420251D5F00FF2542 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA41D0FB2024CF0300C3D6F2 /* Resources */ = {
+		EAC6763420251D7200FF2542 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,26 +193,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EA41D0E52024CE9500C3D6F2 /* Sources */ = {
+		EAC6762120251D5F00FF2542 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+				EAC6763F20251D8900FF2542 /* ARACoreUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EA41D0F82024CF0300C3D6F2 /* Sources */ = {
+		EAC6763120251D7200FF2542 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+				EAC6764020251D8900FF2542 /* ARACoreUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EA41D0F02024CE9500C3D6F2 /* Debug */ = {
+		EAC6762C20251D5F00FF2542 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -286,7 +272,7 @@
 			};
 			name = Debug;
 		};
-		EA41D0F12024CE9500C3D6F2 /* Release */ = {
+		EAC6762D20251D5F00FF2542 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -339,7 +325,7 @@
 			};
 			name = Release;
 		};
-		EA41D0F32024CE9500C3D6F2 /* Debug */ = {
+		EAC6762F20251D5F00FF2542 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -350,10 +336,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
+				INFOPLIST_FILE = ARACoreUtils/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBTools";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARACoreUtils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -362,7 +348,7 @@
 			};
 			name = Debug;
 		};
-		EA41D0F42024CE9500C3D6F2 /* Release */ = {
+		EAC6763020251D5F00FF2542 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -373,10 +359,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ARA_RCSBTools/Info.plist;
+				INFOPLIST_FILE = ARACoreUtils/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBTools";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARACoreUtils;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -384,7 +370,7 @@
 			};
 			name = Release;
 		};
-		EA41D1022024CF0300C3D6F2 /* Debug */ = {
+		EAC6763C20251D7200FF2542 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -397,11 +383,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
+				INFOPLIST_FILE = ARACoreUtilsOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBToolsOSX";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARACoreUtilsOSX;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -410,7 +396,7 @@
 			};
 			name = Debug;
 		};
-		EA41D1032024CF0300C3D6F2 /* Release */ = {
+		EAC6763D20251D7200FF2542 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -423,11 +409,11 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ARA_RCSBToolsOSX/Info.plist;
+				INFOPLIST_FILE = ARACoreUtilsOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.orbitusbiomedical.ARA-RCSBToolsOSX";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARACoreUtilsOSX;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -438,34 +424,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EA41D0E42024CE9500C3D6F2 /* Build configuration list for PBXProject "ARA_RCSBTools" */ = {
+		EAC6762020251D5F00FF2542 /* Build configuration list for PBXProject "ARACoreUtils" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA41D0F02024CE9500C3D6F2 /* Debug */,
-				EA41D0F12024CE9500C3D6F2 /* Release */,
+				EAC6762C20251D5F00FF2542 /* Debug */,
+				EAC6762D20251D5F00FF2542 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA41D0F22024CE9500C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBTools" */ = {
+		EAC6762E20251D5F00FF2542 /* Build configuration list for PBXNativeTarget "ARACoreUtils" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA41D0F32024CE9500C3D6F2 /* Debug */,
-				EA41D0F42024CE9500C3D6F2 /* Release */,
+				EAC6762F20251D5F00FF2542 /* Debug */,
+				EAC6763020251D5F00FF2542 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA41D1042024CF0300C3D6F2 /* Build configuration list for PBXNativeTarget "ARA_RCSBToolsOSX" */ = {
+		EAC6763B20251D7200FF2542 /* Build configuration list for PBXNativeTarget "ARACoreUtilsOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA41D1022024CF0300C3D6F2 /* Debug */,
-				EA41D1032024CF0300C3D6F2 /* Release */,
+				EAC6763C20251D7200FF2542 /* Debug */,
+				EAC6763D20251D7200FF2542 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EA41D0E12024CE9500C3D6F2 /* Project object */;
+	rootObject = EAC6761D20251D5F00FF2542 /* Project object */;
 }

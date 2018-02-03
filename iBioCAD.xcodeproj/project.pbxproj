@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		EA3F8691201D2F4100F7CD23 /* ARAPubChemTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */; };
 		EA3F8693201D2F4B00F7CD23 /* ARAPubChemTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EA3F86AD201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */; };
-		EA3F86AF201F67E000F7CD23 /* ARAPubChemToolsOSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA3F86B32021170200F7CD23 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA3F86B22021170200F7CD23 /* ReplayKit.framework */; };
 		EA41D0F52024CEBF00C3D6F2 /* ARA_RCSBTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA41D0F62024CEBF00C3D6F2 /* ARA_RCSBTools.framework */; };
 		EA41D0F72024CEC800C3D6F2 /* ARA_RCSBTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EA41D0F62024CEBF00C3D6F2 /* ARA_RCSBTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -20,6 +18,8 @@
 		EA43AE1C1FFFBAC4008BD4A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1B1FFFBAC4008BD4A4 /* Assets.xcassets */; };
 		EA43AE1F1FFFBAC4008BD4A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1D1FFFBAC4008BD4A4 /* Main.storyboard */; };
 		EA43AE291FFFBAEA008BD4A4 /* Benzene.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */; };
+		EAC6761820250EC700FF2542 /* ARA_RCSBToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6761A20250EC700FF2542 /* ARA_RCSBToolsOSX.framework */; };
+		EAC6761920250EC700FF2542 /* ARAPubChemToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6761B20250EC700FF2542 /* ARAPubChemToolsOSX.framework */; };
 		EAD7BF8D201D130C006E0A9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */; };
 		EAD7BF8F201D130C006E0A9B /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD7BF8E201D130C006E0A9B /* art.scnassets */; };
 		EAD7BF91201D130C006E0A9B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7BF90201D130C006E0A9B /* ViewController.swift */; };
@@ -36,7 +36,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EA3F86AF201F67E000F7CD23 /* ARAPubChemToolsOSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -57,7 +56,6 @@
 
 /* Begin PBXFileReference section */
 		EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3F86B12020B1F900F7CD23 /* Benzene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Benzene.scn; sourceTree = "<group>"; };
 		EA3F86B22021170200F7CD23 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
 		EA41D0F62024CEBF00C3D6F2 /* ARA_RCSBTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARA_RCSBTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +68,8 @@
 		EA43AE201FFFBAC4008BD4A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA43AE211FFFBAC4008BD4A4 /* iBioCAD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iBioCAD.entitlements; sourceTree = "<group>"; };
 		EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Benzene.scn; sourceTree = "<group>"; };
+		EAC6761A20250EC700FF2542 /* ARA_RCSBToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARA_RCSBToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAC6761B20250EC700FF2542 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7BF8A201D130C006E0A9B /* iBioCAD_Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iBioCAD_Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EAD7BF8E201D130C006E0A9B /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -85,7 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA3F86AD201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework in Frameworks */,
+				EAC6761820250EC700FF2542 /* ARA_RCSBToolsOSX.framework in Frameworks */,
+				EAC6761920250EC700FF2542 /* ARAPubChemToolsOSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,9 +106,10 @@
 		EA3F8690201D2F4100F7CD23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA41D0F62024CEBF00C3D6F2 /* ARA_RCSBTools.framework */,
 				EA3F86B22021170200F7CD23 /* ReplayKit.framework */,
-				EA3F86AE201F67DC00F7CD23 /* ARAPubChemToolsOSX.framework */,
+				EAC6761A20250EC700FF2542 /* ARA_RCSBToolsOSX.framework */,
+				EAC6761B20250EC700FF2542 /* ARAPubChemToolsOSX.framework */,
+				EA41D0F62024CEBF00C3D6F2 /* ARA_RCSBTools.framework */,
 				EA3F8692201D2F4100F7CD23 /* ARAPubChemTools.framework */,
 			);
 			name = Frameworks;
