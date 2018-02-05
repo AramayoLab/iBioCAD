@@ -30,6 +30,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
     
+    var rcsb_pdbFileArray:[String]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +51,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         rcsb = ARA_RCSBToolbox()
         rcsb.initToolbox(search_delegate: self)
+        
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
@@ -146,6 +149,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         print("didReturnPubChemMolecule")
         print(moleculeNode)
         moleculeJSONNSDictionary = moleculeNode
+        
     }
     
     
@@ -159,7 +163,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     {
     
         let alert = UIAlertController(title: message, message: details, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
             switch action.style{
@@ -177,9 +180,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
     
     
-    func didReturnPDB(pdb:NSDictionary)
+    func didReturnPDB(pdb:[String])
     {
         print("didReturnPDB")
+        rcsb_pdbFileArray = pdb
     }
     
     
@@ -247,12 +251,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
 
+        if (rcsb_pdbFileArray != nil)
+        {
+            rcsb.loadPDBJsonMolecule(pdbArray:rcsb_pdbFileArray!,
+                                     targetScene: sceneView.scene,
+                                     targetNode: node,
+                                     targetPosition: sceneCamPos)
+        }
         
-        
-        self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
-                                         targetScene: sceneView.scene,
-                                         targetNode:node,
-                                         targetPosition:sceneCamPos)
+        if (moleculeJSONNSDictionary != nil)
+        {
+            //self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
+            //                                 targetScene: sceneView.scene,
+            //                                 targetNode:node,
+            //                                 targetPosition:sceneCamPos)
+        }
     
     }
     
