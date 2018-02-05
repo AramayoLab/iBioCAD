@@ -27,6 +27,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
     
+    var search_type:Int!
+    let kChemical_SearchType = 0
+    let kPDB_SearchType = 1
+    
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
     
@@ -46,6 +50,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         let scene = SCNScene(named: "art.scnassets/µEppendorf.scn")!
 
+        search_type = kChemical_SearchType;
         pubChem = ARAPubChemToolbox()
         pubChem.initToolbox(search_delegate: self)
         
@@ -107,36 +112,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
     
     
-    @IBAction func startRecording(sender:Any)
-    {
-        RPScreenRecorder.shared().startRecording(handler: { error in
-            DispatchQueue.main.async {
-                self.stopRecButton.isHidden = false;
-                self.startRecButton.isHidden = true;
-            }
-        })
-
-    }
-    
-
-    @IBAction func stopRecording(sender:Any)
-    {
-        RPScreenRecorder.shared().stopRecording(handler: { (rpVC, error) in
-            self.present(rpVC!, animated: true, completion: { rpVC!.previewControllerDelegate = self })
-        })
-        
-    }
-    
-    
-    func previewControllerDidFinish(_ previewController: RPPreviewViewController)
-    {
-        
-        DispatchQueue.main.async {
-            self.stopRecButton.isHidden = true
-            self.startRecButton.isHidden = false
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -206,18 +181,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         
         let searchByName_ActionButton = UIAlertAction(title: "Name", style: .default) { action -> Void in
+            self.search_type = self.kChemical_SearchType
             self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchTextField.text!, record_type_3d: true)
         }
         actionSheetController.addAction(searchByName_ActionButton)
         
         
         let searchByCID_ActionButton = UIAlertAction(title: "CID", style: .default) { action -> Void in
+            self.search_type = self.kChemical_SearchType
             self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchTextField.text!, record_type_3d: false)
         }
         actionSheetController.addAction(searchByCID_ActionButton)
         
         
         let searchByPDB_ActionButton = UIAlertAction(title: "PDB", style: .default) { action -> Void in
+            self.search_type = self.kPDB_SearchType
             self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchTextField.text!)
         }
         actionSheetController.addAction(searchByPDB_ActionButton)
@@ -251,7 +229,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
 
-        if (rcsb_pdbFileArray != nil)
+        if (rcsb_pdbFileArray != nil && search_type == kPDB_SearchType)
         {
             rcsb.loadPDBJsonMolecule(pdbArray:rcsb_pdbFileArray!,
                                      targetScene: sceneView.scene,
@@ -259,7 +237,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                                      targetPosition: sceneCamPos)
         }
         
-        if (moleculeJSONNSDictionary != nil)
+        if (moleculeJSONNSDictionary != nil && search_type == kChemical_SearchType)
         {
             self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
                                              targetScene: sceneView.scene,
@@ -269,5 +247,36 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     }
     
+
     
+    @IBAction func startRecording(sender:Any)
+    {
+        RPScreenRecorder.shared().startRecording(handler: { error in
+            DispatchQueue.main.async {
+                self.stopRecButton.isHidden = false;
+                self.startRecButton.isHidden = true;
+            }
+        })
+        
+    }
+    
+    
+    @IBAction func stopRecording(sender:Any)
+    {
+        RPScreenRecorder.shared().stopRecording(handler: { (rpVC, error) in
+            self.present(rpVC!, animated: true, completion: { rpVC!.previewControllerDelegate = self })
+        })
+        
+    }
+    
+    
+    func previewControllerDidFinish(_ previewController: RPPreviewViewController)
+    {
+        
+        DispatchQueue.main.async {
+            self.stopRecButton.isHidden = true
+            self.startRecButton.isHidden = false
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
 }
