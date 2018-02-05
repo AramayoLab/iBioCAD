@@ -14,12 +14,15 @@ import ARA_RCSBToolsOSX
 class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate {
     
     
+    
+    
     var rna: SCNNode?
     var average_vec:SCNVector3 = SCNVector3Zero
     
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
-    
+    var rcsb_pdbFileArray:[String]?
+
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
 
@@ -77,17 +80,34 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
     }
     
     
-    func didReturnPDB(pdb:NSDictionary)
+    func didReturnPDB(pdb:[String])
     {
         print("didReturnPDB")
+        rcsb_pdbFileArray = pdb
+        let sceneView = self.view as! SCNView
+        let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!,
+                                         (sceneView.pointOfView?.position.y)!,
+                                         (sceneView.pointOfView?.position.z)!)
+        if (rcsb_pdbFileArray != nil)
+        {
+            DispatchQueue.main.async {
+                self.rcsb.loadPDBJsonMolecule(pdbArray: self.rcsb_pdbFileArray!,
+                                         targetScene: sceneView.scene!,
+                                         targetNode: self.molecule!,
+                                         targetPosition: sceneCamPos)
+            }
+        }
     }
     
     
     func didFailToReturnPubPDB(message:String, details:String)
     {
         print("didFailToReturnPubPDB")
+        didFailAlert(message: message, details: details)
     }
     
+        
+        
     
     func didReturnPubChemMolecule(moleculeNode:NSDictionary)
     {
@@ -97,7 +117,9 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
         moleculeJSONNSDictionary = moleculeNode
         let sceneView = self.view as! SCNView
         
-        let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
+        let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!,
+                                         (sceneView.pointOfView?.position.y)!,
+                                         (sceneView.pointOfView?.position.z)!)
         DispatchQueue.main.async {
             self.pubChem.loadPubChemMolecule(jsonResponse: self.moleculeJSONNSDictionary!,
                                              targetScene: sceneView.scene!,
@@ -108,6 +130,12 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
     
     
     func didFailToReturnPubChemMolecule(message:String, details:String)
+    {
+        didFailAlert(message: message, details: details)
+    }
+    
+    
+    func didFailAlert(message:String, details:String)
     {
         print(message)
         print(details)
@@ -123,7 +151,6 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
             return
         }
     }
-    
     
     @objc
     @IBAction func saveBioScriptAction(sender:AnyObject)

@@ -12,6 +12,7 @@
 		EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
 		EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
 		EAAF1C0320263D040012149D /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C0220263D040012149D /* ARACoreUtils.swift */; };
+		EAAF1C072028145B0012149D /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C0220263D040012149D /* ARACoreUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -217,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAAF1C072028145B0012149D /* ARACoreUtils.swift in Sources */,
 				EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

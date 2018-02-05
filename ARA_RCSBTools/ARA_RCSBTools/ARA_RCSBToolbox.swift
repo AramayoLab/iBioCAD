@@ -211,7 +211,7 @@ public class ARA_RCSBToolbox: NSObject {
         var coord_scnVec:SCNVector3
         
         #if os(OSX)
-            coord_scnVec = SCNVector3Make(CGFLoat(atom_x)!, CGFLoat(atom_y)!, CGFLoat(atom_z)!)
+            coord_scnVec = SCNVector3Make(CGFloat(Float(atom_x)!), CGFloat(Float(atom_y)!), CGFloat(Float(atom_z)!))
         #elseif os(iOS)
             coord_scnVec = SCNVector3Make(Float(atom_x)!, Float(atom_y)!, Float(atom_z)!)
         #endif
