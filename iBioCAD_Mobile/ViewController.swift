@@ -15,21 +15,34 @@ import ARAPubChemTools
 import ARA_RCSBTools
 
 
-class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
 
     @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet var searchTextField: UITextField!
     
+    @IBOutlet var searchField:UISearchBar!
+    @IBOutlet var searchController: UISearchController!
     @IBOutlet var stopRecButton:UIButton!
     @IBOutlet var startRecButton:UIButton!
     
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
     
-    var search_type:Int!
-    let kChemical_SearchType = 0
-    let kPDB_SearchType = 1
+    var search_type:String!
+    var recent_searches:[[String:String]] = [[:]]
+    
+    let kChemical_NameSearchType = "kChemical_NameSearchType"
+    let kChemical_CIDSearchType = "kChemical_CIDSearchType"
+    
+    let kChemical_2DAtoms = "kChemical_2DAtoms"
+    let kChemical_3DAtoms = "kChemical_3DAtoms"
+    
+    let kPDB_SearchType = "kPDB_SearchType"
+    
+    let kSearchTypeKey = "kSearchTypeKey"
+    let kSearchTermKey = "kSearchTermKey"
+    let kSearchOptionKey = "kSearchOptionKey"
+    
     
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
@@ -39,18 +52,29 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        if (UserDefaults.standard.value(forKey: "RecentSearches") == nil)
+        {
+            recent_searches = [[kSearchTermKey:"water", kSearchTypeKey:kChemical_NameSearchType, kSearchOptionKey:kChemical_3DAtoms],
+                               [kSearchTermKey:"benzene", kSearchTypeKey:kChemical_NameSearchType, kSearchOptionKey:kChemical_3DAtoms],
+                               [kSearchTermKey:"86583373", kSearchTypeKey:kChemical_CIDSearchType, kSearchOptionKey:kChemical_2DAtoms],
+                               [kSearchTermKey:"246D", kSearchTypeKey:kPDB_SearchType]]
+            
+            UserDefaults.standard.set(recent_searches, forKey: "RecentSearches")
+        }
+        
+
+        
         stopRecButton.isHidden = true;
         startRecButton.isHidden = false;
         
         // Set the view's delegate
         sceneView.delegate = self
-        searchTextField.delegate = self
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
         let scene = SCNScene(named: "art.scnassets/µEppendorf.scn")!
-
-        search_type = kChemical_SearchType;
+        
         pubChem = ARAPubChemToolbox()
         pubChem.initToolbox(search_delegate: self)
         
@@ -98,33 +122,27 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
-        
+        print("ARSession, didFailWithError")
     }
+    
     
     func sessionWasInterrupted(_ session: ARSession) {
         // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
+        print("ARSession, sessionWasInterrupted")
     }
+    
     
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
+        print("ARSession, sessionInterruptionEnded")
     }
     
-    
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        searchAction(sender: self)
-        return true
-    }
     
     func didReturnPubChemMolecule(moleculeNode:NSDictionary)
     {
         print("didReturnPubChemMolecule")
         print(moleculeNode)
         moleculeJSONNSDictionary = moleculeNode
-        
     }
     
     
@@ -136,7 +154,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     func didFailAlert(message:String, details:String)
     {
-    
         let alert = UIAlertController(title: message, message: details, preferredStyle: UIAlertControllerStyle.alert)
         self.present(alert, animated: true, completion: nil)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
@@ -170,41 +187,33 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
 
     @IBAction func searchAction(sender:Any)
     {
-        self.searchTextField.resignFirstResponder()
-        
-        let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
-            print("Cancel")
+        switch self.searchField.selectedScopeButtonIndex {
+            case 0:
+                //name
+                self.search_type = self.kChemical_NameSearchType
+                self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchField.text!, record_type_3d: true)
+            case 1:
+                //CID
+                self.search_type = self.kChemical_CIDSearchType
+                self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchField.text!, record_type_3d: false)
+            case 2:
+                //PDB
+                self.search_type = self.kPDB_SearchType
+                self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchField.text!)
+            
+            default:
+                print("error")
         }
-        actionSheetController.addAction(cancelActionButton)
         
-        
-        let searchByName_ActionButton = UIAlertAction(title: "Name", style: .default) { action -> Void in
-            self.search_type = self.kChemical_SearchType
-            self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchTextField.text!, record_type_3d: true)
-        }
-        actionSheetController.addAction(searchByName_ActionButton)
-        
-        
-        let searchByCID_ActionButton = UIAlertAction(title: "CID", style: .default) { action -> Void in
-            self.search_type = self.kChemical_SearchType
-            self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchTextField.text!, record_type_3d: false)
-        }
-        actionSheetController.addAction(searchByCID_ActionButton)
-        
-        
-        let searchByPDB_ActionButton = UIAlertAction(title: "PDB", style: .default) { action -> Void in
-            self.search_type = self.kPDB_SearchType
-            self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchTextField.text!)
-        }
-        actionSheetController.addAction(searchByPDB_ActionButton)
-
-
-        self.present(actionSheetController, animated: true, completion: nil)
-        
+        self.searchController.isActive = false
     }
     
+    
+    public func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
+    {
+        
+    }
+
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -237,7 +246,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                                      targetPosition: sceneCamPos)
         }
         
-        if (moleculeJSONNSDictionary != nil && search_type == kChemical_SearchType)
+        if (moleculeJSONNSDictionary != nil && (search_type == kChemical_NameSearchType || search_type == kChemical_CIDSearchType))
         {
             self.pubChem.loadPubChemMolecule(jsonResponse: moleculeJSONNSDictionary!,
                                              targetScene: sceneView.scene,
@@ -249,8 +258,42 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
 
     
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        self.recent_searches = UserDefaults.standard.value(forKey: "RecentSearches") as! [[String:String]]
+
+        return recent_searches.count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        cell.textLabel?.text = self.recent_searches[indexPath.row][kSearchTermKey]
+        cell.detailTextLabel?.text = self.recent_searches[indexPath.row][kSearchTypeKey]
+        return cell
+    }
+
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        print("click tableview")
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        self.searchField.text = cell?.textLabel?.text
+        self.searchAction(sender: self)
+        self.searchController.isActive = false
+
+    }
+
+    public func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        self.searchAction(sender: self)
+        self.searchController.isActive = false
+    }
+    
+    
     @IBAction func startRecording(sender:Any)
     {
+        
         RPScreenRecorder.shared().startRecording(handler: { error in
             DispatchQueue.main.async {
                 self.stopRecButton.isHidden = false;

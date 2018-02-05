@@ -39,20 +39,26 @@ public class ARA_RCSBToolbox: NSObject {
     
     public func rcsb_pdbSearchByID(searchTerm:String)
     {
-        let url = "https://files.rcsb.org/download/" + searchTerm + ".pdb"
-        self.getDataFromUrl(urlString: url) { (data, response, error ) in
-            
-            let x = String.init(data:data!, encoding:.utf8)
-            let pdbArray = x!.components(separatedBy: "\n")
+        if (searchTerm != "")
+        {
+            let url = "https://files.rcsb.org/download/" + searchTerm + ".pdb"
+            self.getDataFromUrl(urlString: url) { (data, response, error ) in
+                
+                let x = String.init(data:data!, encoding:.utf8)
+                let pdbArray = x!.components(separatedBy: "\n")
 
-            //return data to the delegate ... only parse in the other loop
-            if (pdbArray[0].starts(with: "<!DOCTYPE HTML PUBLIC"))
-            {
-                self.delegate.didFailToReturnPubPDB(message: "PDB Not Found", details: "")
-                return
+                //return data to the delegate ... only parse in the other loop
+                if (pdbArray[0].starts(with: "<!DOCTYPE HTML PUBLIC"))
+                {
+                    self.delegate.didFailToReturnPubPDB(message: "PDB Not Found", details: "")
+                    return
+                }
+                self.delegate.didReturnPDB(pdb: pdbArray)
             }
-            self.delegate.didReturnPDB(pdb: pdbArray)
-            
+        }
+        else
+        {
+            delegate.didFailToReturnPubPDB(message: "Empty Search", details: "")
         }
     }
     
