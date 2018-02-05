@@ -39,6 +39,8 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
         rcsb = ARA_RCSBToolbox()
         rcsb.initToolbox(search_delegate: self)
         
+        molecule = SCNNode()
+        
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
@@ -193,6 +195,7 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
         
         
         rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
+        //rcsb.rcsb_pdbSearchByID(searchTerm: "6EU2")
         
         
         // check what nodes are clicked
