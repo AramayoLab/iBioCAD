@@ -185,7 +185,8 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
         
         let scnView = self.view as! SCNView
         
-        //self.pubChem_compoundSearchByName(searchTerm:"benzene", record_type: "3d") //Make sure to look up a broken gvalue here for robustness and replace ! with ?
+        
+        pubChem.pubChem_compoundSearchByName(searchTerm:"benzene", record_type_3d:true) //Make sure to look up a broken gvalue here for robustness and replace ! with ?
         //self.pubChem_compoudSearchByCID(searchTerm:"86583373", record_type: "") //some 2d RNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"16197306", record_type: "") //some 2d DNA with no conformer
         //self.pubChem_compoudSearchByCID(searchTerm:"11979623", record_type: "") //some 2d Double strand of RNA with no conformer
@@ -194,7 +195,7 @@ class GameViewController: NSViewController, ARAPubChemMoleculeSearchDelegate, AR
         //self.pubChem.pubChem_compoudSearchByCID(searchTerm: "86583373", record_type_3d:false)
         
         
-        rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
+        //rcsb.rcsb_pdbSearchByID(searchTerm: "246D")
         //rcsb.rcsb_pdbSearchByID(searchTerm: "6EU2")
         
         

@@ -66,9 +66,9 @@
 		EA41D0EC2024CE9500C3D6F2 /* ARA_RCSBTools */ = {
 			isa = PBXGroup;
 			children = (
+				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
 				EAAF1C0220263D040012149D /* ARACoreUtils.swift */,
 				EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */,
-				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
 				EA41D0EE2024CE9500C3D6F2 /* Info.plist */,
 			);
 			path = ARA_RCSBTools;

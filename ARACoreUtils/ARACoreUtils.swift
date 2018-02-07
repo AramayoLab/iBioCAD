@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SceneKit
 
 #if os(macOS)
     
@@ -136,4 +136,33 @@ public class ARACoreUtils: NSObject {
         return(atom_color)
     }
     
+    
+    class func centerAtoms(molecule:SCNNode)
+    {
+        var average_vec: SCNVector3 = SCNVector3Zero
+        
+        for atom in molecule.childNodes
+        {
+            average_vec.x = average_vec.x + atom.position.x
+            average_vec.y = average_vec.y + atom.position.y
+            average_vec.z = average_vec.z + atom.position.z
+        }
+        #if os(OSX)
+            let count = CGFloat(molecule.childNodes.count)
+        #elseif os(iOS)
+            let count = Float(molecule.childNodes.count)
+        #endif
+        
+        average_vec.x = average_vec.x / count
+        average_vec.y = average_vec.y / count
+        average_vec.z = average_vec.z / count
+        
+        for atom in molecule.childNodes
+        {
+            atom.position = SCNVector3Make(atom.position.x - average_vec.x,
+                                           atom.position.y - average_vec.y,
+                                           atom.position.z - average_vec.z)
+        }
+        
+    }
 }

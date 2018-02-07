@@ -17,6 +17,8 @@ import ARA_RCSBTools
 
 class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    @IBOutlet weak var toast: UIVisualEffectView!
+    @IBOutlet weak var label: UILabel!
 
     @IBOutlet var sceneView: ARSCNView!
     
@@ -52,6 +54,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        toast.layer.masksToBounds = true
+        toast.layer.cornerRadius = 7.5
         
         if (UserDefaults.standard.value(forKey: "RecentSearches") == nil)
         {
@@ -63,7 +67,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             UserDefaults.standard.set(recent_searches, forKey: "RecentSearches")
         }
         
-
         
         stopRecButton.isHidden = true;
         startRecButton.isHidden = false;
@@ -119,6 +122,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         // Release any cached data, images, etc that aren't in use.
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    // MARK: - your text goes here
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -137,6 +145,59 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         print("ARSession, sessionInterruptionEnded")
     }
     
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        var message: String? = nil
+        
+        switch camera.trackingState {
+        case .notAvailable:
+            message = "Tracking not available"
+        case .limited(.initializing):
+            message = "Initializing AR session"
+        case .limited(.excessiveMotion):
+            message = "Too much motion"
+        case .limited(.insufficientFeatures):
+            message = "Not enough surface details"
+        case .normal:
+            if molecule != nil {
+                if molecule!.isHidden
+                {
+                    message = "Move to find a horizontal surface"
+                }
+            }
+            
+        }
+        
+        message != nil ? showToast(message!) : hideToast()
+    }
+    
+    
+    func showToast(_ text: String) {
+        label.text = text
+        
+        guard toast.alpha == 0 else {
+            return
+        }
+        
+        toast.layer.masksToBounds = true
+        toast.layer.cornerRadius = 7.5
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.toast.alpha = 1
+            self.toast.frame = self.toast.frame.insetBy(dx: -5, dy: -5)
+        })
+        
+    }
+    
+    func hideToast() {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.toast.alpha = 0
+            self.toast.frame = self.toast.frame.insetBy(dx: 5, dy: 5)
+        })
+    }
+    
+    
+    // MARK: - PubChem Search Methods
+    
     
     func didReturnPubChemMolecule(moleculeNode:NSDictionary)
     {
@@ -151,6 +212,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.didFailAlert(message:message , details:details)
     }
 
+    // MARK: - RCSB Search Methods
+    
+    func didReturnPDB(pdb:[String])
+    {
+        print("didReturnPDB")
+        rcsb_pdbFileArray = pdb
+    }
+    
+    
+    func didFailToReturnPubPDB(message:String, details:String)
+    {
+        self.didFailAlert(message:message , details:details)
+    }
+    
+
+    // MARK: - Common Search Methods
+    
     
     func didFailAlert(message:String, details:String)
     {
@@ -172,37 +250,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
     
     
-    func didReturnPDB(pdb:[String])
-    {
-        print("didReturnPDB")
-        rcsb_pdbFileArray = pdb
-    }
-    
-    
-    func didFailToReturnPubPDB(message:String, details:String)
-    {
-        self.didFailAlert(message:message , details:details)
-    }
-    
-
     @IBAction func searchAction(sender:Any)
     {
+        rcsb_pdbFileArray = nil
+        moleculeJSONNSDictionary = nil
         switch self.searchField.selectedScopeButtonIndex {
-            case 0:
-                //name
-                self.search_type = self.kChemical_NameSearchType
-                self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchField.text!, record_type_3d: true)
-            case 1:
-                //CID
-                self.search_type = self.kChemical_CIDSearchType
-                self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchField.text!, record_type_3d: false)
-            case 2:
-                //PDB
-                self.search_type = self.kPDB_SearchType
-                self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchField.text!)
+        case 0:
+            //name
+            self.search_type = self.kChemical_NameSearchType
+            self.pubChem.pubChem_compoundSearchByName(searchTerm: self.searchField.text!, record_type_3d: true)
+        case 1:
+            //CID
+            self.search_type = self.kChemical_CIDSearchType
+            self.pubChem.pubChem_compoudSearchByCID(searchTerm: self.searchField.text!, record_type_3d: false)
+        case 2:
+            //PDB
+            self.search_type = self.kPDB_SearchType
+            self.rcsb.rcsb_pdbSearchByID(searchTerm: self.searchField.text!)
             
-            default:
-                print("error")
+        default:
+            print("error")
         }
         
         self.searchController.isActive = false
@@ -213,7 +280,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     {
         
     }
-
+    
+    // MARK:
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -235,6 +303,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+
+        
+        if anchor is ARPlaneAnchor {
+            print("plane anchor detections")
+            //molecule?.simdTransform = anchor.transform
+        }
+        
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
 
@@ -256,7 +331,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     }
     
-
+    // MARK: TableViewDelegate/Datasource
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -279,6 +354,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         let cell = tableView.cellForRow(at: indexPath)
         self.searchField.text = cell?.textLabel?.text
+        switch self.recent_searches[indexPath.row][kSearchTypeKey] {
+            case kChemical_NameSearchType?:
+                self.searchField.selectedScopeButtonIndex = 0
+            case kChemical_CIDSearchType?:
+                self.searchField.selectedScopeButtonIndex = 1
+            case kPDB_SearchType?:
+                self.searchField.selectedScopeButtonIndex = 2
+            default:
+                print("no value")
+            }
+        
         self.searchAction(sender: self)
         self.searchController.isActive = false
 
@@ -289,6 +375,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.searchAction(sender: self)
         self.searchController.isActive = false
     }
+    
+    
+    // MARK: ReplayKit ScreenRecording Methods
     
     
     @IBAction func startRecording(sender:Any)
@@ -323,3 +412,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+
+

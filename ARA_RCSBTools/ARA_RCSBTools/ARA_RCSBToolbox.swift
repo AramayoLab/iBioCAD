@@ -85,6 +85,11 @@ public class ARA_RCSBToolbox: NSObject {
             }
         }
         
+        for childNode in molecule.childNodes
+        {
+            
+        }
+        
         //Loop Bonds
         /*
     
@@ -154,7 +159,12 @@ public class ARA_RCSBToolbox: NSObject {
  
         centerAtoms(molecule: molecule)
          */
+        
         molecule.position = targetPosition
+
+        
+        ARACoreUtils.centerAtoms(molecule: molecule)
+
         targetScene.rootNode.addChildNode(molecule)
     }
 
@@ -235,6 +245,10 @@ public class ARA_RCSBToolbox: NSObject {
         
         molecule.addChildNode(sphereNode)
     }
+    
+    
+    
+    
     
     
     func getDataFromUrl(urlString: String, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
