@@ -38,7 +38,7 @@
                                     <action selector="startRecordingWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="d1d-kj-Bdf"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" fixedFrame="YES" barStyle="black" searchBarStyle="prominent" text="" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNG-JR-lRW">
+                            <searchBar contentMode="redraw" fixedFrame="YES" barStyle="black" searchBarStyle="prominent" text="246D" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SNG-JR-lRW">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="search"/>

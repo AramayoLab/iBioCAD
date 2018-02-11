@@ -13,6 +13,8 @@
 		EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */; };
 		EAAF1C0320263D040012149D /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C0220263D040012149D /* ARACoreUtils.swift */; };
 		EAAF1C072028145B0012149D /* ARACoreUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C0220263D040012149D /* ARACoreUtils.swift */; };
+		EAAF1C2F202E23960012149D /* ARA_PDBAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C2E202E23960012149D /* ARA_PDBAtom.swift */; };
+		EAAF1C30202E23970012149D /* ARA_PDBAtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAAF1C2E202E23960012149D /* ARA_PDBAtom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,7 @@
 		EA41D1002024CF0300C3D6F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARA_RCSBToolbox.swift; sourceTree = "<group>"; };
 		EAAF1C0220263D040012149D /* ARACoreUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ARACoreUtils.swift; path = ../../ARACoreUtils/ARACoreUtils.swift; sourceTree = "<group>"; };
+		EAAF1C2E202E23960012149D /* ARA_PDBAtom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ARA_PDBAtom.swift; path = ../../ARACoreUtils/ARA_PDBAtom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				EA41D1052024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift */,
+				EAAF1C2E202E23960012149D /* ARA_PDBAtom.swift */,
 				EAAF1C0220263D040012149D /* ARACoreUtils.swift */,
 				EA41D0ED2024CE9500C3D6F2 /* ARA_RCSBTools.h */,
 				EA41D0EE2024CE9500C3D6F2 /* Info.plist */,
@@ -211,6 +215,7 @@
 			files = (
 				EA41D1062024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
 				EAAF1C0320263D040012149D /* ARACoreUtils.swift in Sources */,
+				EAAF1C2F202E23960012149D /* ARA_PDBAtom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +225,7 @@
 			files = (
 				EAAF1C072028145B0012149D /* ARACoreUtils.swift in Sources */,
 				EA41D1072024CF3C00C3D6F2 /* ARA_RCSBToolbox.swift in Sources */,
+				EAAF1C30202E23970012149D /* ARA_PDBAtom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

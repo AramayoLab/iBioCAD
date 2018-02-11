@@ -27,6 +27,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     @IBOutlet var stopRecButton:UIButton!
     @IBOutlet var startRecButton:UIButton!
     
+    
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
     
@@ -56,6 +57,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         toast.layer.masksToBounds = true
         toast.layer.cornerRadius = 7.5
+        
+        if (UserDefaults.standard.value(forKey: "RecentPDB") != nil)
+        {
+            print("Loaded recent pdb...")
+            rcsb_pdbFileArray = UserDefaults.standard.value(forKey: "RecentPDB") as? [String]
+        }
         
         if (UserDefaults.standard.value(forKey: "RecentSearches") == nil)
         {
@@ -126,7 +133,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         return true
     }
     
-    // MARK: - your text goes here
+    
+    // MARK: - ARSessionTrackingState
+    
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -196,7 +205,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
     
     
-    // MARK: - PubChem Search Methods
+    // MARK: - PubChem Search
     
     
     func didReturnPubChemMolecule(moleculeNode:NSDictionary)
@@ -212,11 +221,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.didFailAlert(message:message , details:details)
     }
 
-    // MARK: - RCSB Search Methods
+    
+    // MARK: - RCSB Search
+    
     
     func didReturnPDB(pdb:[String])
     {
         print("didReturnPDB")
+        if (UserDefaults.standard.value(forKey: "RecentPDB") == nil)
+        {
+            UserDefaults.standard.setValue(pdb, forKey: "RecentPDB")
+        }
+        
         rcsb_pdbFileArray = pdb
     }
     
@@ -227,7 +243,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     }
     
 
-    // MARK: - Common Search Methods
+    // MARK: - Common Search
     
     
     func didFailAlert(message:String, details:String)
@@ -281,7 +297,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
     }
     
-    // MARK:
+    // MARK: - ARSCNViewDelegate
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -301,6 +317,59 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         }
     }
     
+    func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didSimulatePhysicsAtTime time: TimeInterval) {
+        //Use this method to perturb the velocity of each physics body
+        // 1. need electro static attraction/repulsion - all electro bodies loop over each other
+        // 2. need all hydrophobic / iso-B fields to attract - base pair stacking
+        //
+        // assumes rigid inole rings with swivel bonds, and corrected pi orbital representation
+        
+        
+        
+        /*
+        float pos = box1.position.x;
+        SCNVector3 box1Pos = box1.presentationNode.position;
+        SCNVector3 box2Pos = box2.presentationNode.position;
+        
+        SCNVector3 delta_pos = SCNVector3Make(box2Pos.x - box1Pos.x,
+                                              box2Pos.y - box1Pos.y,
+                                              box2Pos.z - box1Pos.z);
+        float mag = sqrt(delta_pos.x * delta_pos.x + delta_pos.y * delta_pos.y + delta_pos.z * delta_pos.z);
+        SCNVector3 box1_vel = box1.physicsBody.velocity;
+        SCNVector3 box2_vel = box2.physicsBody.velocity;
+        if (mag > 1.0)
+        {
+            //box1.physicsBody.velocity = SCNVector3Make(box1_vel.x + delta_pos.x,
+            //                                           box1_vel.y + delta_pos.y,
+            //                                           box1_vel.z + delta_pos.z);
+            #define kVelocityThreshold 0.25
+            
+            //needs 4 properties -- box1_vel, delta_pos, mag, kVelocityThreshold
+            box1.physicsBody.velocity = SCNVector3Make( ((box1_vel.x + delta_pos.x/mag) > 0) ? MIN(box1_vel.x + delta_pos.x/mag, kVelocityThreshold) : MAX(box1_vel.x + delta_pos.x/mag, -kVelocityThreshold) ,
+            ((box1_vel.y + delta_pos.y/mag) > 0) ? MIN(box1_vel.y + delta_pos.y/mag, kVelocityThreshold) : MAX(box1_vel.y + delta_pos.y/mag, -kVelocityThreshold) ,
+            ((box1_vel.z + delta_pos.z/mag) > 0) ? MIN(box1_vel.z + delta_pos.z/mag, kVelocityThreshold) : MAX(box1_vel.z + delta_pos.z/mag, -kVelocityThreshold));
+            
+            box2.physicsBody.velocity = SCNVector3Make( ((box2_vel.x - delta_pos.x/mag) > 0) ? MIN(box2_vel.x - delta_pos.x/mag, kVelocityThreshold) : MAX(box2_vel.x - delta_pos.x/mag, -kVelocityThreshold) ,
+            ((box2_vel.y - delta_pos.y/mag) > 0) ? MIN(box2_vel.y - delta_pos.y/mag, kVelocityThreshold) : MAX(box2_vel.y - delta_pos.y/mag, -kVelocityThreshold) ,
+            ((box2_vel.z - delta_pos.z/mag) > 0) ? MIN(box2_vel.z - delta_pos.z/mag, kVelocityThreshold) : MAX(box2_vel.z - delta_pos.z/mag, -kVelocityThreshold));
+            box1.physicsBody.angularVelocity = SCNVector4Zero;
+            box2.physicsBody.angularVelocity = SCNVector4Zero;
+        }
+        NSLog(@"physics %f", box2_vel.x - delta_pos.x/mag);
+        */
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+        
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        
+    }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
 
@@ -331,7 +400,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     }
     
-    // MARK: TableViewDelegate/Datasource
+    // MARK: - TableViewDelegate/Datasource
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -376,8 +445,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.searchController.isActive = false
     }
     
-    
-    // MARK: ReplayKit ScreenRecording Methods
+
+    // MARK: - ReplayKit ScreenRecording
     
     
     @IBAction func startRecording(sender:Any)

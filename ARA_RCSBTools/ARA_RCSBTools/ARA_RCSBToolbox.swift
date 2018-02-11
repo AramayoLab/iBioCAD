@@ -65,7 +65,8 @@ public class ARA_RCSBToolbox: NSObject {
     public func loadPDBJsonMolecule( pdbArray:[String], targetScene:SCNScene, targetNode:SCNNode, targetPosition:SCNVector3)
     {
         var molecule: SCNNode = SCNNode()
-        
+        var atoms:[ARA_PDBAtom] = []
+        var hetatoms:[ARA_PDBAtom] = []
         
         for pdb_entry in pdbArray
         {
@@ -76,100 +77,344 @@ public class ARA_RCSBToolbox: NSObject {
                 switch (entry_type)
                 {
                     case "ATOM  ":
-                        self.parseAtom(pdb_entry: pdb_entry, molecule: molecule)
+                        atoms.append(self.parseAtom(pdb_entry: pdb_entry, molecule: molecule))
                     case "HETATM":
-                        self.parseAtom(pdb_entry: pdb_entry, molecule: molecule)
+                        hetatoms.append(self.parseAtom(pdb_entry: pdb_entry, molecule: molecule))
                     default:
                         print("CouldNotParse - " + entry_type)
                 }
             }
         }
         
-        for childNode in molecule.childNodes
+        //all atoms loaded
+        var current_base_unit:SCNNode = SCNNode() //THis holds the current AminoAcid or NucleicAcid as dictionary to hold all atoms together
+        //molecule.add(C1)
+        //molecule.add(C2)
+        //molecule.add(BasePairSubUnit_A)
+        //molecule.add(O5)
+        
+        
+        var currentBase:Int = 0
+        var localBase: [ARA_PDBAtom] = []
+        
+        for atom in atoms
         {
+            //print(atom.atom_residue_sequence_id)
+            if (atoms.last == atom)
+            {
+                //bind last acid residue atom array
+                localBase.append(atom)
+                bind_and_string_beads(localBase:localBase, targetMolecule: molecule, targetScene:targetScene)
+                continue
+            }
+        
+            if currentBase != Int(atom.atom_residue_sequence_id)
+            {
+                if (localBase.count > 0)
+                {
+                    //bind and string the beads with physicsHinges
+                    bind_and_string_beads(localBase: localBase, targetMolecule: molecule, targetScene: targetScene)
+                }
+                
+                //Start new array of Atoms to bind
+                currentBase = atom.atom_residue_sequence_id
+                localBase = [atom]
+                
+                continue //goto next atom and keep accumulating until we are ready to change.. watch for LASTATOM which is when we have the last atom in the parser
+            }
             
-        }
-        
-        //Loop Bonds
-        /*
-    
-        // WE subtract 1 from the AID because it starts at 1 -> maxAtoms (795 for the RNA) and index out of bounds will be thrown otherwise
-        let element1 = elementArray[(bonds_aid1_Array[i] as! Int) - 1] as! Int
-        let element2 = elementArray[(bonds_aid2_Array[i] as! Int) - 1] as! Int
-        let bondOrder = orderArray[i] as! Int
-        let aid1 = molecule.childNode(withName: String(describing:bonds_aid1_Array[i]), recursively: true) as! SCNNode
-        let aid2 = molecule.childNode(withName: String(describing:bonds_aid2_Array[i]), recursively: true) as! SCNNode
-        
-        /*
-         let x1 = xArray[bonds_aid1_Array[i] as! Int] as! CGFloat
-         let y1 = yArray[bonds_aid1_Array[i] as! Int] as! CGFloat
-         let z1 = zArray[bonds_aid1_Array[i] as! Int] as! CGFloat
-         
-         let x2 = xArray[bonds_aid2_Array[i] as! Int] as! CGFloat
-         let y2 = yArray[bonds_aid2_Array[i] as! Int] as! CGFloat
-         let z2 = zArray[bonds_aid2_Array[i] as! Int] as! CGFloat
-         */
-        
-        //let scnView = self.view as! SCNView
-        
-        
-        if (bondOrder == 1 )
-        {
-            //1st Order
-            let bond_joint = SCNPhysicsBallSocketJoint(bodyA: aid1.physicsBody!,
-                                                       anchorA: SCNVector3Make(-0.15 * atomicVertexToARCorrectionFactor, 0, 0),
-                                                       bodyB: aid2.physicsBody!,
-                                                       anchorB: SCNVector3Make(0.15 * atomicVertexToARCorrectionFactor, 0, 0))
-            targetScene.physicsWorld.addBehavior(bond_joint)
-        }
-        
-        if (bondOrder == 2 )
-        {
-            //2nd order
-            /*let bond_joint = SCNPhysicsConeTwistJoint(bodyA: aid1.physicsBody!,
-             frameA: SCNMatrix4Identity,
-             bodyB: aid2.physicsBody!,
-             frameB: SCNMatrix4Identity)
+            localBase.append(atom)
+            
+            
+            //-------- Render and Convert ARA_PDBAtom to SCNNode() ---------
+            // *** Close this off since we need to add subgroups for proper rigid benzene physics ***
+            /*
+             var coord_scnVec:SCNVector3
+            coord_scnVec = SCNVector3Make(atom.atom_x, atom.atom_y, atom.atom_z)
+            
+             let sphere = SCNSphere(radius: ARACoreUtils.getAtomSize_vanderwalls(element: atom.element_int) * CGFloat(atomicVertexToARCorrectionFactor) )
+             
+             sphere.segmentCount = 4;
+             sphere.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:atom.element_int)
+             let sphereNode = SCNNode(geometry: sphere)
+             sphereNode.physicsBody = .dynamic()
+            sphereNode.name = String(describing: atom_id(atom:atom) + "Extra")
+             sphereNode.position = SCNVector3(x: coord_scnVec.x * atomicVertexToARCorrectionFactor,
+                                              y: coord_scnVec.y * atomicVertexToARCorrectionFactor,
+                                              z: coord_scnVec.z * atomicVertexToARCorrectionFactor)
+             
+             molecule.addChildNode(sphereNode)
              */
-            let bond_joint = SCNPhysicsHingeJoint.init(bodyA: aid1.physicsBody!,
-                                                       axisA: SCNVector3Make(0, 0, 1),
-                                                       anchorA: SCNVector3Make(-0.45 * atomicVertexToARCorrectionFactor, 0, 0),
-                                                       bodyB: aid2.physicsBody!,
-                                                       axisB: SCNVector3Make(0, 0, 1),
-                                                       anchorB: SCNVector3Make(0.45 * atomicVertexToARCorrectionFactor, 0, 0))
-            targetScene.physicsWorld.addBehavior(bond_joint)
-            
-        }
-        
-        if (bondOrder == 3 )
-        {
-            //2nd order
-            let bond_joint = SCNPhysicsConeTwistJoint(bodyA: aid1.physicsBody!,
-                                                      frameA: SCNMatrix4Identity,
-                                                      bodyB: aid2.physicsBody!,
-                                                      frameB: SCNMatrix4Identity)
-            
-            
-            targetScene.physicsWorld.addBehavior(bond_joint)
-            
-        }
-        
-        i = i+1
-        
+            //-------------------------------------------------------------
  
-        centerAtoms(molecule: molecule)
-         */
+        }
+        
         
         molecule.position = targetPosition
 
+        print(molecule.childNodes)
+        for child in molecule.childNodes
+        {
+            print(child.childNodes)
+        }
         
-        ARACoreUtils.centerAtoms(molecule: molecule)
+        
+        //ARACoreUtils.centerAtoms(molecule: molecule)
 
         targetScene.rootNode.addChildNode(molecule)
     }
-
     
-    func parseAtom(pdb_entry:String, molecule:SCNNode)
+    
+    func bindMultiAtomRigidly(atoms:[ARA_PDBAtom])
+    {
+        
+    }
+    
+    
+    func multiAtomRigidNode(atoms:[ARA_PDBAtom]) -> SCNNode
+    {
+        let rigidNode = SCNNode()
+
+        let averagePosition:SCNVector3 = averagePos(atoms:atoms)
+        
+        for atom in atoms
+        {
+            var coord_scnVec:SCNVector3
+            coord_scnVec = SCNVector3Make(atom.atom_x - averagePosition.x, atom.atom_y - averagePosition.y, atom.atom_z - averagePosition.z)
+            
+            let sphere = SCNSphere(radius: ARACoreUtils.getAtomSize_vanderwalls(element: atom.element_int) * CGFloat(atomicVertexToARCorrectionFactor) )
+            
+            sphere.segmentCount = 4;
+            sphere.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:atom.element_int)
+            let sphereNode = SCNNode(geometry: sphere)
+            sphereNode.name = String(describing: atom_id(atom:atom) )
+            sphereNode.position = SCNVector3(x: coord_scnVec.x * atomicVertexToARCorrectionFactor,
+                                             y: coord_scnVec.y * atomicVertexToARCorrectionFactor,
+                                             z: coord_scnVec.z * atomicVertexToARCorrectionFactor)
+            print("created aid: " + atom_id(atom: atom))
+            rigidNode.addChildNode(sphereNode)
+        }
+        
+        rigidNode.position = averagePosition
+        rigidNode.physicsBody = .dynamic()
+        
+        return rigidNode
+    }
+    
+    
+    func atom_id(atom:ARA_PDBAtom) -> String
+    {
+        return atom.atom_chain_id + "/" + String(atom.atom_residue_sequence_id) + "/" + atom.atom_name
+    }
+    
+    
+    func averagePos(atoms:[ARA_PDBAtom]) -> SCNVector3
+    {
+        var averagePosition = SCNVector3Zero
+        
+        //compute average
+        for atom in atoms
+        {
+            averagePosition = SCNVector3Make(averagePosition.x + atom.atom_x,
+                                             averagePosition.y + atom.atom_y,
+                                             averagePosition.z + atom.atom_z)
+        }
+        
+        #if os(OSX)
+            averagePosition = SCNVector3Make(averagePosition.x/CGFloat(atoms.count),
+                                             averagePosition.y/CGFloat(atoms.count),
+                                             averagePosition.z/CGFloat(atoms.count))
+        #elseif os(iOS)
+            averagePosition = SCNVector3Make(averagePosition.x/Float(atoms.count),
+                                             averagePosition.y/Float(atoms.count),
+                                             averagePosition.z/Float(atoms.count))
+        #endif
+        
+        return averagePosition
+    }
+    
+    func singleBondToRigid(a:ARA_PDBAtom, b:ARA_PDBAtom, rigid:SCNNode, dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
+    {
+        //Creates only atom A if needed... assumes rigid is created
+        
+        
+        //do we really need the rigid node if the binding to the subNode is going to work??!?!
+        // 1. test that single bond to the subNode is going to work...
+        // 2. else add the physics bond to the rigidNode at the position of the subNode
+        //return singleBond(a: a, b: b, dist: dist, molecule: molecule)
+        //Creates the Geometry and physics body if necessary.. otherwise only binds the physics joints
+        var sphereNode_a = molecule.childNode(withName: atom_id(atom: a), recursively: true)
+        
+        print(sphereNode_a)
+        
+        if (sphereNode_a == nil)
+        {
+            var coord_scnVec_a:SCNVector3
+            coord_scnVec_a = SCNVector3Make(a.atom_x, a.atom_y, a.atom_z)
+            
+            let sphere_a = SCNSphere(radius: ARACoreUtils.getAtomSize_vanderwalls(element: a.element_int) * CGFloat(atomicVertexToARCorrectionFactor) )
+            
+            sphere_a.segmentCount = 4;
+            sphere_a.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:a.element_int)
+            sphereNode_a = SCNNode(geometry: sphere_a)
+            sphereNode_a?.physicsBody = .dynamic()
+            sphereNode_a?.name = String(describing: atom_id(atom:a))
+            sphereNode_a?.position = SCNVector3(x: coord_scnVec_a.x * atomicVertexToARCorrectionFactor,
+                                                y: coord_scnVec_a.y * atomicVertexToARCorrectionFactor,
+                                                z: coord_scnVec_a.z * atomicVertexToARCorrectionFactor)
+            print("created aid: " + atom_id(atom: a))
+            molecule.addChildNode(sphereNode_a!)
+        }
+        
+        let sphereNode_b = molecule.childNode(withName: atom_id(atom: b), recursively: true)
+        
+        //CRITICAL TEST POINT... what is the correct place to put the physics joint.... atom_a to atom_b.. b is on the edge at (x,0,0)
+        return SCNPhysicsBallSocketJoint(bodyA: sphereNode_a!.physicsBody!,
+                                         anchorA: SCNVector3Make(-dist * atomicVertexToARCorrectionFactor, 0, 0),
+                                         bodyB: rigid.physicsBody!,
+                                         anchorB: SCNVector3Make(b.atom_x, b.atom_y, b.atom_z))
+    }
+    
+    func singleBond(a:ARA_PDBAtom, b:ARA_PDBAtom, dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
+    {
+        //Creates the Geometry and physics body if necessary.. otherwise only binds the physics joints
+        var sphereNode_a = molecule.childNode(withName: atom_id(atom: a), recursively: true)
+        if (sphereNode_a == nil)
+        {
+            var coord_scnVec_a:SCNVector3
+            coord_scnVec_a = SCNVector3Make(a.atom_x, a.atom_y, a.atom_z)
+            
+            let sphere_a = SCNSphere(radius: ARACoreUtils.getAtomSize_vanderwalls(element: a.element_int) * CGFloat(atomicVertexToARCorrectionFactor) )
+            
+            sphere_a.segmentCount = 4;
+            sphere_a.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:a.element_int)
+            sphereNode_a = SCNNode(geometry: sphere_a)
+            sphereNode_a?.physicsBody = .dynamic()
+            sphereNode_a?.name = String(describing: atom_id(atom:a))
+            sphereNode_a?.position = SCNVector3(x: coord_scnVec_a.x * atomicVertexToARCorrectionFactor,
+                                                y: coord_scnVec_a.y * atomicVertexToARCorrectionFactor,
+                                                z: coord_scnVec_a.z * atomicVertexToARCorrectionFactor)
+            print("created aid: " + atom_id(atom: a))
+            molecule.addChildNode(sphereNode_a!)
+        }
+        
+        var sphereNode_b = molecule.childNode(withName: atom_id(atom: b), recursively: true)
+        if (sphereNode_b == nil)
+        {
+            var coord_scnVec_b:SCNVector3
+            coord_scnVec_b = SCNVector3Make(b.atom_x, b.atom_y, b.atom_z)
+            
+            let sphere_b = SCNSphere(radius: ARACoreUtils.getAtomSize_vanderwalls(element: b.element_int) * CGFloat(atomicVertexToARCorrectionFactor) )
+            
+            sphere_b.segmentCount = 4;
+            sphere_b.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:b.element_int)
+            sphereNode_b = SCNNode(geometry: sphere_b)
+            sphereNode_b?.physicsBody = .dynamic()
+            sphereNode_b?.name = String(describing: atom_id(atom:b))
+            sphereNode_b?.position = SCNVector3(x: coord_scnVec_b.x * atomicVertexToARCorrectionFactor,
+                                                y: coord_scnVec_b.y * atomicVertexToARCorrectionFactor,
+                                                z: coord_scnVec_b.z * atomicVertexToARCorrectionFactor)
+            print("created aid: " + atom_id(atom: b))
+            molecule.addChildNode(sphereNode_b!)
+        }
+        
+        return SCNPhysicsBallSocketJoint(bodyA: sphereNode_a!.physicsBody!,
+                                         anchorA: SCNVector3Make(-dist * atomicVertexToARCorrectionFactor, 0, 0),
+                                         bodyB: sphereNode_b!.physicsBody!,
+                                         anchorB: SCNVector3Make(dist * atomicVertexToARCorrectionFactor, 0, 0))
+        
+    }
+    
+    
+    func containsRibose(atom:[String:ARA_PDBAtom]) -> Bool
+    {
+        return atom["C5'"] != nil && atom["C4'"] != nil && atom["C3'"] != nil && atom["C2'"] != nil && atom["C1'"] != nil && atom["O5'"] != nil && atom["O4'"] != nil && atom["O3'"] != nil && atom["O2'"] != nil /*Phosphate Optional? && atom["P"] != nil*/
+    }
+    
+    
+    func containsGuanine(atom:[String:ARA_PDBAtom]) -> Bool
+    {
+        return atom["N9"] != nil && atom["N7"] != nil && atom["N3"] != nil && atom["N2"] != nil && atom["N1"] != nil && atom["C8"] != nil && atom["C6"] != nil && atom["C5"] != nil && atom["C4"] != nil && atom["C2"] != nil
+    }
+    
+    
+    func bind_and_string_beads(localBase:[ARA_PDBAtom], targetMolecule:SCNNode, targetScene:SCNScene)
+    {
+        //Build A, T, C, G, U, DA, DT, DC, DG, DU, and I
+        switch localBase[0].atom_residue_name {
+            case "A":
+                print("A " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "T":
+                print("T " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "C":
+                print("C " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "G":
+                print("G " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+                
+                //------------------------------
+                //    GUANINE
+                //------------------------------
+                //Build Atom Dictionary
+                var atom:[String:ARA_PDBAtom] = [:]
+                for local_atom in localBase
+                {
+                    print(local_atom.atom_char)
+                    atom[local_atom.atom_char] = local_atom
+                }
+                if (containsRibose(atom: atom) &&
+                    containsGuanine(atom: atom))
+                {
+                    targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    
+                    let riboseSugar_rigidNode = multiAtomRigidNode(atoms:[atom["C4'"]!, atom["C3'"]!, atom["C2'"]!, atom["C1'"]!, atom["O4'"]!])
+                    targetMolecule.addChildNode(riboseSugar_rigidNode)
+                    
+                    targetScene.physicsWorld.addBehavior(singleBondToRigid(a:atom["C5'"]!, b:atom["C4'"]!, rigid:riboseSugar_rigidNode, dist: 0.15, molecule:targetMolecule))
+                    
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
+                    
+                    //print(targetMolecule.childNodes)
+                    //for child in targetMolecule.childNodes
+                    //{
+                    //    print(child.childNodes)
+                    //}
+                }
+            
+            
+            
+            
+            
+                // 11 bonds of nucleic acid G
+            
+            case "U":
+                print("U " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "DA":
+                print("DA " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "DT":
+                print("DT " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "DC":
+                print("DC " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "DG":
+                print("DG " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "DU":
+                print("DU " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            case "I":
+                print("I " + String(localBase.count) + " chain: " + localBase[0].atom_chain_id)
+            default:
+                print("*** UNKNOWN BASE!!! ***")
+        }
+    }
+    
+    
+    func parseAtom(pdb_entry:String, molecule:SCNNode) -> ARA_PDBAtom
     {
 
         //ATOM entry properties
@@ -188,41 +433,42 @@ public class ARA_RCSBToolbox: NSObject {
         let atom_element = String(pdb_entry[76...77]).replacingOccurrences(of:" ", with: "")
         let atom_charge = String(pdb_entry[78...79]).replacingOccurrences(of:" ", with: "")
         
-        //ATOM 52 NH1BARG A -3    14.338 86.056 88.706 0.50 40.23 N
-        
+        //PDB Alanine Entry Example
+        //ATOM      1  N   ALA A   4      11.746  37.328  28.300  1.00 35.74           N
+        //PDB Adenine Entry Example
+        //ATOM    125  P     A A   7      31.379   1.230   6.849  1.00 29.78           P
+
         let element_int:Int = ARACoreUtils.periodic_table_element_for_string(element: atom_element)
         
+        let atom:ARA_PDBAtom = ARA_PDBAtom()
         
-        print(atom_id)
-        print(atom_name)
-        print(atom_char)
-        print(atom_residue_name)
-        print(atom_chain_id)
-        print(atom_residue_sequence_id)
-        print(atom_iCode)
-        print(atom_x)
-        print(atom_y)
-        print(atom_z)
-        print(atom_occupancy)
-        print(atom_tempFactor)
-        print(atom_element)
-        print(atom_charge)
+        atom.atom_id = atom_id
+        atom.atom_name = atom_name
+        atom.atom_char = atom_char
+        atom.atom_residue_name = atom_residue_name
+        atom.atom_chain_id = atom_chain_id
+        atom.atom_residue_sequence_id = Int(atom_residue_sequence_id)
+        atom.atom_iCode = atom_iCode
         
-        switch atom_residue_name {
-            case "A":
-                print("Adenine")
-            case "T":
-                print("Thymine")
-            case "U":
-                print("Uracil")
-            case "C":
-                print("Cytosine")
-            case "G":
-                print("Guanine")
-            
-            default:
-                print("*** unknown ***")
-        }
+        #if os(OSX)
+            atom.atom_x = CGFloat(Float(atom_x)!)
+            atom.atom_y = CGFloat(Float(atom_y)!)
+            atom.atom_z = CGFloat(Float(atom_z)!)
+        #elseif os(iOS)
+            atom.atom_x = Float(atom_x)!
+            atom.atom_y = Float(atom_y)!
+            atom.atom_z = Float(atom_z)!
+        #endif
+        
+        atom.atom_occupancy = atom_occupancy
+        atom.atom_tempFactor = atom_tempFactor
+        atom.atom_element = atom_element
+        atom.atom_charge = atom_charge
+        atom.element_int = element_int
+        
+        
+        //-------- Render and Convert ARA_PDBAtom to SCNNode() ---------
+        //*** Close this off since we need to add subgroups for proper rigid benzene physics ***
         
         var coord_scnVec:SCNVector3
         
@@ -238,18 +484,17 @@ public class ARA_RCSBToolbox: NSObject {
         sphere.firstMaterial?.diffuse.contents = ARACoreUtils.getAtom_color(element:element_int)
         let sphereNode = SCNNode(geometry: sphere)
         sphereNode.physicsBody = .dynamic()
-        sphereNode.name = String(describing: atom_id)
+        sphereNode.name = String(describing: atom_id(atom:atom))
         sphereNode.position = SCNVector3(x: coord_scnVec.x * atomicVertexToARCorrectionFactor,
                                          y: coord_scnVec.y * atomicVertexToARCorrectionFactor,
                                          z: coord_scnVec.z * atomicVertexToARCorrectionFactor)
         
         molecule.addChildNode(sphereNode)
+ 
+        //--------------------------------------------------------------
+        
+        return atom
     }
-    
-    
-    
-    
-    
     
     func getDataFromUrl(urlString: String, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         let url = URL(string: urlString)

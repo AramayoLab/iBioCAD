@@ -50,20 +50,20 @@ public class ARACoreUtils: NSObject {
     
     public class func getAtomSize_vanderwalls(element: Int) -> CGFloat
     {
-        print("element -", element)
+        //print("element -", element)
         switch(element)
         {
         case 6:
-            print("carbon")
+            //print("carbon")
             return 170/200.0//attometers
         case 8:
-            print("oxygen")
+            //print("oxygen")
             return 152/200.0//attometers
         case 7:
-            print("nitrogen")
+            //print("nitrogen")
             return 155/200.0//attometers
         case 1:
-            print("hydrogen")
+            //print("hydrogen")
             return 120/200.0//attometers
         default:
             return 100.0/200.0//attometers
@@ -132,7 +132,7 @@ public class ARACoreUtils: NSObject {
             break;
         }
         
-        print(atom_color)
+        //print(atom_color)
         return(atom_color)
     }
     
