@@ -88,12 +88,6 @@ public class ARA_RCSBToolbox: NSObject {
         
         //all atoms loaded
         var current_base_unit:SCNNode = SCNNode() //THis holds the current AminoAcid or NucleicAcid as dictionary to hold all atoms together
-        //molecule.add(C1)
-        //molecule.add(C2)
-        //molecule.add(BasePairSubUnit_A)
-        //molecule.add(O5)
-        
-        
         var currentBase:Int = 0
         var localBase: [ARA_PDBAtom] = []
         
