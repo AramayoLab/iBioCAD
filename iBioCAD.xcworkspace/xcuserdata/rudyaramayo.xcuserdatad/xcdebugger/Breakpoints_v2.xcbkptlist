@@ -6,32 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ARA_RCSBTools/ARA_RCSBTools/ARA_RCSBToolbox.swift"
-            timestampString = "540070976.305287"
+            timestampString = "540101942.370261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "loadPDBJsonMolecule(pdbArray:targetScene:targetNode:targetPosition:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iBioCAD_Mobile/ViewController.swift"
-            timestampString = "540071009.177817"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
-            landmarkName = "didReturnPDB(pdb:)"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "multiAtomRigidNode(atoms:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

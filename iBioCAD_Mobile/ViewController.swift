@@ -62,6 +62,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         {
             print("Loaded recent pdb...")
             rcsb_pdbFileArray = UserDefaults.standard.value(forKey: "RecentPDB") as? [String]
+            search_type = kPDB_SearchType
         }
         
         if (UserDefaults.standard.value(forKey: "RecentSearches") == nil)
@@ -228,10 +229,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     func didReturnPDB(pdb:[String])
     {
         print("didReturnPDB")
-        if (UserDefaults.standard.value(forKey: "RecentPDB") == nil)
-        {
-            UserDefaults.standard.setValue(pdb, forKey: "RecentPDB")
-        }
+        UserDefaults.standard.setValue(pdb, forKey: "RecentPDB")
         
         rcsb_pdbFileArray = pdb
     }
@@ -381,7 +379,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
-
+        
+        print(rcsb_pdbFileArray)
+        print(search_type)
+        
         if (rcsb_pdbFileArray != nil && search_type == kPDB_SearchType)
         {
             rcsb.loadPDBJsonMolecule(pdbArray:rcsb_pdbFileArray!,
