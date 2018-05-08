@@ -18,6 +18,7 @@
 		EA43AE1C1FFFBAC4008BD4A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1B1FFFBAC4008BD4A4 /* Assets.xcassets */; };
 		EA43AE1F1FFFBAC4008BD4A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE1D1FFFBAC4008BD4A4 /* Main.storyboard */; };
 		EA43AE291FFFBAEA008BD4A4 /* Benzene.scn in Resources */ = {isa = PBXBuildFile; fileRef = EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */; };
+		EA61414B20A23E9B00A6B3EC /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA61414A20A23E9B00A6B3EC /* MenuTableViewController.swift */; };
 		EAC6761820250EC700FF2542 /* ARA_RCSBToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6761A20250EC700FF2542 /* ARA_RCSBToolsOSX.framework */; };
 		EAC6761920250EC700FF2542 /* ARAPubChemToolsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6761B20250EC700FF2542 /* ARAPubChemToolsOSX.framework */; };
 		EAD7BF8D201D130C006E0A9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */; };
@@ -68,6 +69,7 @@
 		EA43AE201FFFBAC4008BD4A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA43AE211FFFBAC4008BD4A4 /* iBioCAD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iBioCAD.entitlements; sourceTree = "<group>"; };
 		EA43AE271FFFBAEA008BD4A4 /* Benzene.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Benzene.scn; sourceTree = "<group>"; };
+		EA61414A20A23E9B00A6B3EC /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		EAC6761A20250EC700FF2542 /* ARA_RCSBToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARA_RCSBToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAC6761B20250EC700FF2542 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7BF8A201D130C006E0A9B /* iBioCAD_Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iBioCAD_Mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 			children = (
 				EAD7BF8C201D130C006E0A9B /* AppDelegate.swift */,
 				EAD7BF90201D130C006E0A9B /* ViewController.swift */,
+				EA61414A20A23E9B00A6B3EC /* MenuTableViewController.swift */,
 				EA3F86B12020B1F900F7CD23 /* Benzene.scn */,
 				EAD7BF8E201D130C006E0A9B /* art.scnassets */,
 				EAD7BF92201D130C006E0A9B /* Main.storyboard */,
@@ -292,6 +295,7 @@
 			files = (
 				EAD7BF91201D130C006E0A9B /* ViewController.swift in Sources */,
 				EAD7BF8D201D130C006E0A9B /* AppDelegate.swift in Sources */,
+				EA61414B20A23E9B00A6B3EC /* MenuTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

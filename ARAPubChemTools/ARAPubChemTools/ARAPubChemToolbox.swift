@@ -311,7 +311,10 @@ public class ARAPubChemToolbox: NSObject {
                         #if os(OSX)
                             coord_scnVec = SCNVector3Make(xArray[i] as! CGFloat, yArray[i] as! CGFloat, zArray[i] as! CGFloat)
                         #elseif os(iOS)
-                            coord_scnVec = SCNVector3Make(xArray[i] as! Float, yArray[i] as! Float, zArray[i] as! Float)
+                            //coord_scnVec = SCNVector3Make(xArray[i] as! Float, yArray[i] as! Float, zArray[i] as! Float)
+                        coord_scnVec = SCNVector3Make((xArray[i] as! NSNumber).floatValue,
+                                                      (yArray[i] as! NSNumber).floatValue,
+                                                      (zArray[i] as! NSNumber).floatValue)
                         #endif
                     }
                     else
@@ -319,7 +322,11 @@ public class ARAPubChemToolbox: NSObject {
                         #if os(OSX)
                             coord_scnVec = SCNVector3Make(xArray[i] as! CGFloat, yArray[i] as! CGFloat, 0.0)
                         #elseif os(iOS)
-                            coord_scnVec = SCNVector3Make(Float(xArray[i] as! Double), Float(yArray[i] as! Double), 0.0)
+                            coord_scnVec = SCNVector3Make((xArray[i] as! NSNumber).floatValue,
+                                                          (yArray[i] as! NSNumber).floatValue,
+                                                          0.0)
+                        
+                            //coord_scnVec = SCNVector3Make(Float(xArray[i] as! Double), Float(yArray[i] as! Double), 0.0)
                         #endif
                     }
                     
@@ -456,10 +463,9 @@ public class ARAPubChemToolbox: NSObject {
                                                              y: (yArray[i] as! CGFloat) * atomicVertexToARCorrectionFactor,
                                                              z: (zArray[i] as! CGFloat) * atomicVertexToARCorrectionFactor)
                         #elseif os(iOS)
-                            sphereNode.position = SCNVector3(x: (xArray[i] as! Float) * atomicVertexToARCorrectionFactor,
-                                                             y: (yArray[i] as! Float) * atomicVertexToARCorrectionFactor,
-                                                             z: (zArray[i] as! Float) * atomicVertexToARCorrectionFactor)
-                            
+                            sphereNode.position = SCNVector3Make((xArray[i] as! NSNumber).floatValue * atomicVertexToARCorrectionFactor,
+                                                      (yArray[i] as! NSNumber).floatValue * atomicVertexToARCorrectionFactor,
+                                                      (zArray[i] as! NSNumber).floatValue * atomicVertexToARCorrectionFactor)
                             
                         #endif
                         
@@ -472,9 +478,9 @@ public class ARAPubChemToolbox: NSObject {
                                                              y: (yArray[i] as! CGFloat) * atomicVertexToARCorrectionFactor,
                                                              z: 0.00001*CGFloat(i)) //Gives the 2d stuff some 3dness so it doesn't stop calculating third dimension
                         #elseif os(iOS)
-                            sphereNode.position = SCNVector3(x: (xArray[i] as! Float) * atomicVertexToARCorrectionFactor,
-                                                             y: (yArray[i] as! Float) * atomicVertexToARCorrectionFactor,
-                                                             z: 0.00001*Float(i)) //Gives the 2d stuff some 3dness so it doesn't stop calculating third dimension
+                            sphereNode.position = SCNVector3Make((xArray[i] as! NSNumber).floatValue * atomicVertexToARCorrectionFactor,
+                                                                 (yArray[i] as! NSNumber).floatValue * atomicVertexToARCorrectionFactor,
+                                                                 0.00001*Float(i)) //Gives the 2d stuff some 3dness so it doesn't stop calculating third dimension
                         #endif
                         
                         

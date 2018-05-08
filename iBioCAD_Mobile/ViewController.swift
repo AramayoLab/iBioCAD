@@ -29,6 +29,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     @IBOutlet weak var label: UILabel!
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet var menuTableView: UITableView!
+    
     
     @IBOutlet var searchField:UISearchBar!
     @IBOutlet var searchController: UISearchController!
@@ -38,9 +40,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     @IBOutlet private weak var informationLabel: UILabel!
     @IBOutlet private weak var informationContainerView: UIView!
     
+    var shouldShowResetPlaneInstructions:Bool = false
+    var shouldShowDebugTrackingStateInfo:Bool = false
     
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
+    
+    var benchRotation:Float = 0
+    var benchNodeOriginalTransform: SCNMatrix4 = SCNMatrix4Identity
+    var isAnimating: Bool = false
     
     var search_type:String!
     var recent_searches:[[String:String]] = [[:]]
@@ -58,6 +66,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     let kSearchOptionKey = "kSearchOptionKey"
     
     var planeNodes:[SCNNode] = []
+    
+    var workbenchNode:SCNNode?
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
     
@@ -81,7 +91,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             DispatchQueue.main.async {
                 self.informationContainerView.alpha = 1.0
             }
-            self.showMessage("Choose a cup")
+            self.showMessage("Choose a molecule")
             
         case .start:
             
@@ -94,13 +104,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                 //self.informationCenterYConstraint.constant = self.view.frame.height/3
                 self.view.layoutIfNeeded()
             }
-            self.showMessage("Tap to start", animated: true, duration: 0.3)
+            self.showMessage("Drag to rotate bench,\nTap to start", animated: true, duration: 0.3)
             //showToast("Tap to start")
         case .next:
-            DispatchQueue.main.async {
-                self.informationContainerView.alpha = 1.0
-            }
-            self.showMessage("Tap to continue")
+            print("fallthrough")
+            //DispatchQueue.main.async {
+            //    self.informationContainerView.alpha = 1.0
+            //}
+            //self.showMessage("Tap to continue")
         case .position: fallthrough
         default: break
         }
@@ -108,6 +119,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.informationLabel.alpha = 0.0
+        self.informationContainerView.alpha = 0.0
         
         toast.layer.masksToBounds = true
         toast.layer.cornerRadius = 7.5
@@ -136,6 +150,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         // Set the view's delegate
         sceneView.delegate = self
         sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedInSceneView)))
+        sceneView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(draggedInSceneView)))
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
@@ -165,6 +180,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         //sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints,ARSCNDebugOptions.showWorldOrigin]
 
         showMessage("Move device to find a plane", animated: true, duration: 2)
+        closeMenu()
+        
     }
     
     private func showMessage(_ message: String, animated: Bool = false, duration: TimeInterval = 1.0) {
@@ -196,6 +213,27 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         return node
     }()
     
+    @objc private func draggedInSceneView(recognizer: UIPanGestureRecognizer) {
+        print("dragging...")
+        
+        if state == .start
+        {
+            // Ensure it's a horizontal drag
+            let velocity = recognizer.velocity(in: self.view)
+            if velocity.x > 0 {
+                //right
+                benchRotation += 1 * Float.pi / 180
+            }
+            else
+            {
+                //left
+                benchRotation -= 1 * Float.pi / 180
+            }
+            
+            benchNode.transform = SCNMatrix4Mult(SCNMatrix4MakeRotation(benchRotation, 0, 1, 0), benchNodeOriginalTransform )
+        }
+    }
+    
     
     @objc private func tappedInSceneView(recognizer: UIGestureRecognizer) {
         if state == .position {
@@ -208,6 +246,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             }
             
             benchNode.transform = SCNMatrix4(hitResult.worldTransform)
+            benchNodeOriginalTransform = benchNode.transform
             let camera = self.sceneView.pointOfView!
             benchNode.rotation = SCNVector4(0, 1, 0, camera.rotation.y)
             benchNode.isHidden = false
@@ -333,8 +372,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                 }
             }
         }
-        
-        message != nil ? showToast(message!) : hideToast()
+        if shouldShowDebugTrackingStateInfo
+        {
+            message != nil ? showToast(message!) : hideToast()
+        }
+        else
+        {
+            self.toast.alpha = 0
+            self.toast.frame = self.toast.frame.insetBy(dx: 5, dy: 5)
+        }
     }
     
     
@@ -420,6 +466,67 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             }}))
     }
     
+    
+    func openMenu()
+    {
+        self.menuTableView.frame = CGRect(x: 0, y: 56, width: self.menuTableView.frame.size.width, height: self.menuTableView.frame.size.height)
+    }
+    
+    func closeMenu()
+    {
+        self.menuTableView.frame = CGRect(x: -260, y: 56, width: self.menuTableView.frame.size.width, height: self.menuTableView.frame.size.height)
+    }
+    
+    @IBAction func toggleMenu(sender:Any)
+    {
+        if (!isAnimating)
+        {
+            self.isAnimating = true
+            if (self.menuTableView.frame.origin.x < 0)
+            {
+                UIView.animate(withDuration: 0.33, animations: {
+                    self.openMenu()
+                }) { _ in
+                    self.isAnimating = false
+                }
+            }
+            else
+            {
+                UIView.animate(withDuration: 0.33, animations: {
+                    self.closeMenu()
+                }) { _ in
+                    self.isAnimating = false
+                }
+            }
+        }
+        
+        
+        /*print("toggleMenu")
+        let menuHeight:CGFloat = 56.0
+        let menuTableViewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuTableVC") as UIViewController
+        menuTableViewController.view.frame = CGRect(x: 0, y: menuHeight, width: 260, height: self.view.frame.size.height-menuHeight-20.0)
+        self.view.addSubview(menuTableViewController.view)
+         */
+    }
+    
+    
+    @IBAction func recenterWorkBench(sender:Any)
+    {
+        guard let node = sceneView.scene.rootNode.childNode(withName: "bench", recursively: true) else {
+            preconditionFailure("Bench node not found")
+        }
+        node.isHidden = true
+        
+        state = .position
+        
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
+        sceneView.session.run(configuration)
+
+        showMessage("Move device to \nfind a planar surface", animated: false, duration: 2)
+        self.shouldShowResetPlaneInstructions = true
+        
+    }
     
     @IBAction func searchAction(sender:Any)
     {
@@ -567,7 +674,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             {
                 createPlaneNode(anchor: planeAnchor)
             }
-            self.showMessage("Plane is detected. Tap to position,\nwhere you'd like to put the game.", animated: true)
+            self.showMessage("Plane is detected. Tap to position,\nmolecular work bench.", animated: true)
             
             return
         }
@@ -611,7 +718,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         {
             let planeNode = createPlaneNode(anchor: planeAnchor)
             node.addChildNode(planeNode)
+            
+            if shouldShowResetPlaneInstructions
+            {
+                self.showMessage("Plane is detected. Tap to position,\nMoleculAR work bench.", animated: true)
+                shouldShowResetPlaneInstructions = false
+            }
         }
+        
+
+
     }
     
     // When a detected plane is removed, remove the planeNode
@@ -629,13 +745,54 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        if (tableView == menuTableView)
+        {
+            return 5;
+        }
+        
         self.recent_searches = UserDefaults.standard.value(forKey: "RecentSearches") as! [[String:String]]
 
         return recent_searches.count
     }
     
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (tableView == menuTableView)
+        {
+            switch indexPath.row {
+                case 0:
+                    return 120
+                default:
+                    return 44
+            }
+        }
+        
+        return 44
+    }
+    
+    
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
+        if (tableView == menuTableView)
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTitle")
+                    return cell!
+                default:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItem")
+                    cell?.selectionStyle = .gray
+                    return cell!
+            }
+            
+            //let cell = UITableViewCell(style: .default, reuseIdentifier: "MenuTitle")
+            
+            //cell.textLabel?.text = ""
+            
+            
+        }
+        
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.textLabel?.text = self.recent_searches[indexPath.row][kSearchTermKey]
         cell.detailTextLabel?.text = self.recent_searches[indexPath.row][kSearchTypeKey]
@@ -644,6 +801,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
+        if (tableView == menuTableView)
+        {
+            switch (indexPath.row)
+            {
+            case 1:
+                print("1")
+            case 2:
+                print("2")
+            case 3:
+                print("3")
+            case 4:
+                print("4")
+            default:
+                return
+            }
+            return
+        }
+        
         print("click tableview")
         
         let cell = tableView.cellForRow(at: indexPath)
