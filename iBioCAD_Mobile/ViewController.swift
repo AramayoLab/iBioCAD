@@ -106,6 +106,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         // Set the scene to the view
         sceneView.scene = scene
+        //sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints,ARSCNDebugOptions.showWorldOrigin]
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +116,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
         
+        // Tell the session to automatically detect horizontal planes
+        configuration.planeDetection = .horizontal
+
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -155,6 +160,31 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         print("ARSession, sessionInterruptionEnded")
     }
     
+    
+    func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
+        // Create a SceneKit plane to visualize the node using its position and extent.
+        
+        // Create the geometry and its materials
+        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        
+        let lavaImage = UIImage(named: "Lava")
+        let lavaMaterial = SCNMaterial()
+        lavaMaterial.diffuse.contents = lavaImage
+        lavaMaterial.isDoubleSided = true
+        
+        plane.materials = [lavaMaterial]
+        
+        // Create a node with the plane geometry we created
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        
+        // SCNPlanes are vertically oriented in their local coordinate space.
+        // Rotate it to match the horizontal orientation of the ARPlaneAnchor.
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+        
+        return planeNode
+    }
+    
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
         var message: String? = nil
         
@@ -167,6 +197,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             message = "Too much motion"
         case .limited(.insufficientFeatures):
             message = "Not enough surface details"
+        case .limited(.relocalizing):
+            message = "relocalizing"
         case .normal:
             if molecule != nil {
                 if molecule!.isHidden
@@ -174,7 +206,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
                     message = "Move to find a horizontal surface"
                 }
             }
-            
         }
         
         message != nil ? showToast(message!) : hideToast()
@@ -375,7 +406,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         if anchor is ARPlaneAnchor {
             print("plane anchor detections")
             //molecule?.simdTransform = anchor.transform
+            
+            guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+            
+            let planeNode = createPlaneNode(anchor: planeAnchor)
+            
+            return
         }
+        
         
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
@@ -401,6 +439,34 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     
     }
     
+    
+    // When a detected plane is updated, make a new planeNode
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        
+        // Remove existing plane nodes
+        node.enumerateChildNodes {
+            (childNode, _) in
+            childNode.removeFromParentNode()
+        }
+        
+        
+        let planeNode = createPlaneNode(anchor: planeAnchor)
+        
+        node.addChildNode(planeNode)
+    }
+    
+    // When a detected plane is removed, remove the planeNode
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        guard anchor is ARPlaneAnchor else { return }
+        
+        // Remove existing plane nodes
+        node.enumerateChildNodes {
+            (childNode, _) in
+            childNode.removeFromParentNode()
+        }
+    }
+
     // MARK: - TableViewDelegate/Datasource
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int

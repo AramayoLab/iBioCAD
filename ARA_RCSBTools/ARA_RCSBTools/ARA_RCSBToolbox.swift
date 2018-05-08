@@ -223,11 +223,15 @@ public class ARA_RCSBToolbox: NSObject {
         return averagePosition
     }
     
-    func singleBondToRigid(a:ARA_PDBAtom, b:ARA_PDBAtom, rigid:SCNNode, dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
+    func singleBondToRigid(a:ARA_PDBAtom, b:ARA_PDBAtom, rigid:SCNNode, t_dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
     {
         //Creates only atom A if needed... assumes rigid is created
         
-        
+        #if os(OSX)
+        let dist = CGFloat(t_dist)
+        #elseif os(iOS)
+        let dist = Float(t_dist)
+        #endif
         //do we really need the rigid node if the binding to the subNode is going to work??!?!
         // 1. test that single bond to the subNode is going to work...
         // 2. else add the physics bond to the rigidNode at the position of the subNode
@@ -274,8 +278,14 @@ public class ARA_RCSBToolbox: NSObject {
 
     }
     
-    func singleBond(a:ARA_PDBAtom, b:ARA_PDBAtom, dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
+    func singleBond(a:ARA_PDBAtom, b:ARA_PDBAtom, t_dist:Float, molecule:SCNNode) -> SCNPhysicsBallSocketJoint
     {
+        #if os(OSX)
+        let dist = CGFloat(t_dist)
+        #elseif os(iOS)
+        let dist = Float(t_dist)
+        #endif
+        
         //Creates the Geometry and physics body if necessary.. otherwise only binds the physics joints
         var sphereNode_a = molecule.childNode(withName: atom_for_id(atom: a), recursively: true)
         if (sphereNode_a == nil)
@@ -363,12 +373,12 @@ public class ARA_RCSBToolbox: NSObject {
                 if (containsRibose(atom: atom) &&
                     containsGuanine(atom: atom))
                 {
-                    targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.5, molecule:targetMolecule))
+                    targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, t_dist: 0.5, molecule:targetMolecule))
                     
                     let riboseSugar_rigidNode = multiAtomRigidNode(atoms:[atom["C4'"]!, atom["C3'"]!, atom["C2'"]!, atom["C1'"]!, atom["O4'"]!])
                     targetMolecule.addChildNode(riboseSugar_rigidNode)
                     
-                    targetScene.physicsWorld.addBehavior(singleBondToRigid(a:atom["C5'"]!, b:atom["C4'"]!, rigid:riboseSugar_rigidNode, dist: 0.5, molecule:targetMolecule))
+                    targetScene.physicsWorld.addBehavior(singleBondToRigid(a:atom["C5'"]!, b:atom["C4'"]!, rigid:riboseSugar_rigidNode, t_dist: 0.5, molecule:targetMolecule))
                     
                     //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))
                     //targetScene.physicsWorld.addBehavior(singleBond(a:atom["O5'"]!, b:atom["C5'"]!, dist: 0.15, molecule:targetMolecule))

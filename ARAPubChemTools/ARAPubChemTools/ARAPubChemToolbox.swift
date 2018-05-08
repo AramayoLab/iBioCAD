@@ -319,7 +319,7 @@ public class ARAPubChemToolbox: NSObject {
                         #if os(OSX)
                             coord_scnVec = SCNVector3Make(xArray[i] as! CGFloat, yArray[i] as! CGFloat, 0.0)
                         #elseif os(iOS)
-                            coord_scnVec = SCNVector3Make(xArray[i] as! Float, yArray[i] as! Float, 0.0)
+                            coord_scnVec = SCNVector3Make(Float(xArray[i] as! Double), Float(yArray[i] as! Double), 0.0)
                         #endif
                     }
                     
