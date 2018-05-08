@@ -15,6 +15,14 @@ import ARAPubChemTools
 import ARA_RCSBTools
 
 
+enum BenchTrackingState: Int {
+    case position = 0
+    case start
+    case inAction
+    case select
+    case next
+}
+
 class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSearchDelegate, ARA_RCSB_PDBSearchDelegate, UITextFieldDelegate, RPPreviewViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var toast: UIVisualEffectView!
@@ -26,6 +34,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     @IBOutlet var searchController: UISearchController!
     @IBOutlet var stopRecButton:UIButton!
     @IBOutlet var startRecButton:UIButton!
+    
+    @IBOutlet private weak var informationLabel: UILabel!
+    @IBOutlet private weak var informationContainerView: UIView!
     
     
     var pubChem:ARAPubChemToolbox!
@@ -46,11 +57,54 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     let kSearchTermKey = "kSearchTermKey"
     let kSearchOptionKey = "kSearchOptionKey"
     
-    
+    var planeNodes:[SCNNode] = []
     var molecule:SCNNode?
     var moleculeJSONNSDictionary:NSDictionary?
     
     var rcsb_pdbFileArray:[String]?
+    
+    private var state: BenchTrackingState = .position {
+        didSet {
+            handleBenchState()
+        }
+    }
+    
+    private func handleBenchState() {
+        switch state {
+        case .inAction:
+            DispatchQueue.main.async {
+                self.informationContainerView.alpha = 0.0
+            }
+            self.showMessage("")
+            
+        case .select:
+            DispatchQueue.main.async {
+                self.informationContainerView.alpha = 1.0
+            }
+            self.showMessage("Choose a cup")
+            
+        case .start:
+            
+            for node in planeNodes
+            {
+                node.removeFromParentNode()
+            }
+            DispatchQueue.main.async {
+                //self.resultsPanelView.isHidden = false
+                //self.informationCenterYConstraint.constant = self.view.frame.height/3
+                self.view.layoutIfNeeded()
+            }
+            self.showMessage("Tap to start", animated: true, duration: 0.3)
+            //showToast("Tap to start")
+        case .next:
+            DispatchQueue.main.async {
+                self.informationContainerView.alpha = 1.0
+            }
+            self.showMessage("Tap to continue")
+        case .position: fallthrough
+        default: break
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +135,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         // Set the view's delegate
         sceneView.delegate = self
+        sceneView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedInSceneView)))
+        
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
@@ -108,18 +164,112 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         sceneView.scene = scene
         //sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints,ARSCNDebugOptions.showWorldOrigin]
 
+        showMessage("Move device to find a plane", animated: true, duration: 2)
+    }
+    
+    private func showMessage(_ message: String, animated: Bool = false, duration: TimeInterval = 1.0) {
+        DispatchQueue.main.async {
+            if animated {
+                UIView.animate(withDuration: duration, animations: {
+                    self.informationLabel.alpha = 0.0
+                    self.informationContainerView.alpha = 0.0
+                }) { _ in
+                    self.informationLabel.text = message
+                    self.informationLabel.alpha = 0.0
+                    self.informationContainerView.alpha = 0.0
+                    UIView.animate(withDuration: duration, animations: {
+                        self.informationLabel.alpha = 1.0
+                        self.informationContainerView.alpha = 1.0
+                    })
+                }
+            } else {
+                self.informationLabel.text = message
+            }
+        }
+    }
+    
+    private lazy var benchNode: SCNNode = {
+        guard let node = sceneView.scene.rootNode.childNode(withName: "bench", recursively: true) else {
+            preconditionFailure("Bench node not found")
+        }
+        node.position = SCNVector3 (0, -0.1, -0.5)
+        return node
+    }()
+    
+    
+    @objc private func tappedInSceneView(recognizer: UIGestureRecognizer) {
+        if state == .position {
+            let touchLocation = recognizer.location(in: sceneView)
+            let hitTestResult = sceneView.hitTest(touchLocation, types: .existingPlane)
+            
+            guard let hitResult = hitTestResult.first else {
+                print("HitResult is empty")
+                return
+            }
+            
+            benchNode.transform = SCNMatrix4(hitResult.worldTransform)
+            let camera = self.sceneView.pointOfView!
+            benchNode.rotation = SCNVector4(0, 1, 0, camera.rotation.y)
+            benchNode.isHidden = false
+            
+            let configuration = ARWorldTrackingConfiguration()
+            configuration.planeDetection = .horizontal
+            sceneView.session.run(configuration)
+            
+            state = .start
+        } else if state == .start {
+            state = .inAction
+            
+            //lift cup up, wait, then put down
+            //run() does some animations then goes into .select mode
+            self.state = .select
+            
+        } else if state == .select {
+            /*let touchLocation = recognizer.location(in: sceneView)
+            let hitTestResult = sceneView.hitTest(touchLocation, options: [:])
+            
+            guard let hitResult = hitTestResult.first else {
+                print("HitResult is empty")
+                return
+            }
+            
+            if let cup = hitResult.node.parent, let selectedCup = cupsNodes.index(of: cup) {
+                let actualBallPosition = cupsPermutation[indexOfCupWithBall]
+                let selectedBallPosition = cupsPermutation[selectedCup]
+                print ("actualBallPosition: \(actualBallPosition). selectedBallPosition: \(selectedBallPosition)")
+                ballNode.position = cupsNodes[indexOfCupWithBall].convertPosition(SCNVector3(0, 0, 0), to: self.gameNode)
+                ballNode.isHidden = false
+                let cupWithBall = cupsNodes[indexOfCupWithBall]
+                if selectedBallPosition == actualBallPosition {
+                    state = .inAction
+                    AudioPlayer.shared.playSound(.success, on: sceneView.scene.rootNode)
+                    let moveCupUp = SCNAction.moveBy(x: 0, y: CGFloat(0.075), z: 0, duration: 0.5)
+                    cupWithBall.runAction(moveCupUp) {
+                        self.levelNumber = self.levelNumber + 1
+                        self.state = .next
+                    }
+                } else {
+                    self.score = max(0, self.score - 5)
+                    AudioPlayer.shared.playSound(.fail, on: sceneView.scene.rootNode)
+                }
+            }*/
+            state = .next
+        } else if state == .next {
+            state = .inAction
+            /*state = .inAction
+            let cupWithBall = cupsNodes[indexOfCupWithBall]
+            let moveCupDown = SCNAction.moveBy(x: 0, y: -CGFloat(0.075), z: 0, duration: 0.5)
+            cupWithBall.runAction(moveCupDown) {
+                self.run()
+            }*/
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-        
-        // Tell the session to automatically detect horizontal planes
         configuration.planeDetection = .horizontal
-
-        // Run the view's session
         sceneView.session.run(configuration)
     }
     
@@ -160,30 +310,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         print("ARSession, sessionInterruptionEnded")
     }
     
-    
-    func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
-        // Create a SceneKit plane to visualize the node using its position and extent.
-        
-        // Create the geometry and its materials
-        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
-        
-        let lavaImage = UIImage(named: "Lava")
-        let lavaMaterial = SCNMaterial()
-        lavaMaterial.diffuse.contents = lavaImage
-        lavaMaterial.isDoubleSided = true
-        
-        plane.materials = [lavaMaterial]
-        
-        // Create a node with the plane geometry we created
-        let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
-        
-        // SCNPlanes are vertically oriented in their local coordinate space.
-        // Rotate it to match the horizontal orientation of the ARPlaneAnchor.
-        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
-        
-        return planeNode
-    }
     
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
         var message: String? = nil
@@ -333,11 +459,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         
         if let touchLocation = touches.first?.location(in: sceneView) {
             
-            // Touch to 3D Object
-            if let hit = sceneView.hitTest(touchLocation, options: nil).first {
-                hit.node.removeFromParentNode()
-                return
-            }
+            // Touch to 3D Object - fun way to snip RNA in AR space
+            //if let hit = sceneView.hitTest(touchLocation, options: nil).first {
+            //    hit.node.removeFromParentNode()
+            //    return
+            //}
             
             // Touch to Feature Point
             if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
@@ -392,28 +518,59 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         */
     }
     
+    
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
     }
+    
     
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         
     }
     
+    
+    func createPlaneNode(anchor: ARPlaneAnchor) -> SCNNode {
+        // Create a SceneKit plane to visualize the node using its position and extent.
+        
+        // Create the geometry and its materials
+        let plane = SCNPlane(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z))
+        //let plane = SCNPlane(width: 0.5, height: 0.5)
+        
+        let benchImage = UIImage(named: "Benchtop")
+        let benchMaterial = SCNMaterial()
+        benchMaterial.diffuse.contents = benchImage
+        benchMaterial.isDoubleSided = true
+        
+        plane.materials = [benchMaterial]
+        
+        // Create a node with the plane geometry we created
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z)
+        planeNode.opacity = 0.65
+        // SCNPlanes are vertically oriented in their local coordinate space.
+        // Rotate it to match the horizontal orientation of the ARPlaneAnchor.
+        planeNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 1, 0, 0)
+        planeNodes.append(planeNode)
+        return planeNode
+    }
+    
+    
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
 
-        
         if anchor is ARPlaneAnchor {
             print("plane anchor detections")
             //molecule?.simdTransform = anchor.transform
             
             guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
             
-            let planeNode = createPlaneNode(anchor: planeAnchor)
+            if state == .position
+            {
+                createPlaneNode(anchor: planeAnchor)
+            }
+            self.showMessage("Plane is detected. Tap to position,\nwhere you'd like to put the game.", animated: true)
             
             return
         }
-        
         
         
         let sceneCamPos = SCNVector3Make((sceneView.pointOfView?.position.x)!, (sceneView.pointOfView?.position.y)!, (sceneView.pointOfView?.position.z)!)
@@ -450,10 +607,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             childNode.removeFromParentNode()
         }
         
-        
-        let planeNode = createPlaneNode(anchor: planeAnchor)
-        
-        node.addChildNode(planeNode)
+        if state == .position
+        {
+            let planeNode = createPlaneNode(anchor: planeAnchor)
+            node.addChildNode(planeNode)
+        }
     }
     
     // When a detected plane is removed, remove the planeNode
