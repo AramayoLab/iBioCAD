@@ -30,12 +30,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
 
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var menuTableView: UITableView!
-    
+    @IBOutlet var physicsMenuView: UIView!
     
     @IBOutlet var searchField:UISearchBar!
     @IBOutlet var searchController: UISearchController!
     @IBOutlet var stopRecButton:UIButton!
     @IBOutlet var startRecButton:UIButton!
+    @IBOutlet var physicsTimeSlider:UISlider!
     
     @IBOutlet private weak var informationLabel: UILabel!
     @IBOutlet private weak var informationContainerView: UIView!
@@ -46,7 +47,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
     var pubChem:ARAPubChemToolbox!
     var rcsb:ARA_RCSBToolbox!
     
-    var benchRotation:Float = 0
+    var benchRotation:CGFloat = 0
     var benchNodeOriginalTransform: SCNMatrix4 = SCNMatrix4Identity
     var isAnimating: Bool = false
     
@@ -181,6 +182,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
 
         showMessage("Move device to find a plane", animated: true, duration: 2)
         closeMenu()
+        closePhysicsMenu()
         
     }
     
@@ -219,18 +221,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         if state == .start
         {
             // Ensure it's a horizontal drag
+            
             let velocity = recognizer.velocity(in: self.view)
+            
+            let magnitude = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y))
+            let slideMult = magnitude / 200
+            
             if velocity.x > 0 {
                 //right
-                benchRotation += 1 * Float.pi / 180
+                benchRotation += slideMult * CGFloat.pi / 180
             }
             else
             {
                 //left
-                benchRotation -= 1 * Float.pi / 180
+                benchRotation -= slideMult * CGFloat.pi / 180
             }
             
-            benchNode.transform = SCNMatrix4Mult(SCNMatrix4MakeRotation(benchRotation, 0, 1, 0), benchNodeOriginalTransform )
+            benchNode.transform = SCNMatrix4Mult(SCNMatrix4MakeRotation(Float(benchRotation), 0, 1, 0), benchNodeOriginalTransform )
         }
     }
     
@@ -477,6 +484,68 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
         self.menuTableView.frame = CGRect(x: -260, y: 56, width: self.menuTableView.frame.size.width, height: self.menuTableView.frame.size.height)
     }
     
+    
+    func openPhysicsMenu()
+    {
+        self.physicsMenuView.frame = CGRect(x: self.view.frame.size.width - self.physicsMenuView.frame.size.width, y: self.view.frame.size.height - self.physicsMenuView.frame.size.height - 56, width: self.physicsMenuView.frame.size.width, height: self.physicsMenuView.frame.size.height)
+    }
+    
+    func closePhysicsMenu()
+    {
+        self.physicsMenuView.frame = CGRect(x: self.view.frame.size.width, y: self.view.frame.size.height - self.physicsMenuView.frame.size.height - 56, width: self.physicsMenuView.frame.size.width, height: self.physicsMenuView.frame.size.height)
+    }
+    
+    
+    @IBAction func togglePhysicsTime(sender:Any)
+    {
+        if (sender is UISlider)
+        {
+            self.sceneView.scene.physicsWorld.speed = CGFloat((sender as! UISlider).value)
+        }
+        if (sender is UIButton)
+        {
+            if (self.sceneView.scene.physicsWorld.speed == 1.0)
+            {
+                self.sceneView.scene.physicsWorld.speed = 0.0;
+                physicsTimeSlider.setValue(0.0, animated: true)
+                (sender as! UIButton).setTitle("Play", for: .normal)
+            }
+            else
+            {
+                self.sceneView.scene.physicsWorld.speed = 1.0;
+                physicsTimeSlider.setValue(1.0, animated: true)
+                (sender as! UIButton).setTitle("Pause", for: .normal)
+            }
+        }
+        
+    }
+    
+    
+    @IBAction func togglePhysicsMenu(sender:Any)
+    {
+        if (!isAnimating)
+        {
+            self.isAnimating = true
+            if (self.physicsMenuView.frame.origin.x >= self.view.frame.size.width)
+            {
+                UIView.animate(withDuration: 0.33, animations: {
+                    self.openPhysicsMenu()
+                }) { _ in
+                    self.isAnimating = false
+                }
+            }
+            else
+            {
+                UIView.animate(withDuration: 0.33, animations: {
+                    self.closePhysicsMenu()
+                }) { _ in
+                    self.isAnimating = false
+                }
+            }
+        }
+    }
+    
+    
     @IBAction func toggleMenu(sender:Any)
     {
         if (!isAnimating)
@@ -573,9 +642,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             //}
             
             // Touch to Feature Point
-            if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
-                sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
+            if state == .next
+            {
+                if let hit = sceneView.hitTest(touchLocation, types: .featurePoint).first {
+                    sceneView.session.add(anchor: ARAnchor(transform: hit.worldTransform))
+                }
             }
+            
         }
     }
     
@@ -673,8 +746,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARAPubChemMoleculeSea
             if state == .position
             {
                 createPlaneNode(anchor: planeAnchor)
+                self.showMessage("Plane is detected. Tap to position,\nmolecular work bench.", animated: true)
             }
-            self.showMessage("Plane is detected. Tap to position,\nmolecular work bench.", animated: true)
             
             return
         }

@@ -98,6 +98,15 @@
                                     <action selector="recenterWorkBenchWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Zsg-6O-3I1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Fll-Ta-Xwo">
+                                <rect key="frame" x="325" y="617" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.18039215689999999" blue="0.16078431369999999" alpha="0.33021190070000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="P"/>
+                                <connections>
+                                    <action selector="togglePhysicsMenuWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="wkp-Ic-RpH"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tmH-VB-qEk">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="56"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -109,8 +118,30 @@
                                     <action selector="toggleMenuWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="7Eg-8l-KEO"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" misplaced="YES" id="DC9-al-fSL">
+                                <rect key="frame" x="135" y="489" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="-3" maxValue="3" id="drw-uV-Ec8" customClass="ANPopoverSlider">
+                                        <rect key="frame" x="8" y="75" width="226" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="togglePhysicsTimeWithSender:" destination="BV1-FR-VrT" eventType="valueChanged" id="A7o-k5-56i"/>
+                                        </connections>
+                                    </slider>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="PC2-P2-cdV">
+                                        <rect key="frame" x="95" y="8" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="togglePhysicsTimeWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="AH0-lb-gIS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.18039215689999999" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hj2-hG-JZF">
-                                <rect key="frame" x="0.0" y="57" width="260" height="610"/>
+                                <rect key="frame" x="-190" y="57" width="260" height="610"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -163,6 +194,13 @@
                                     <outlet property="prefetchDataSource" destination="BV1-FR-VrT" id="6NI-yR-Hct"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9ig-8G-DTg">
+                                <rect key="frame" x="313" y="430" width="56" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <action selector="togglePhysicsMenuWithSender:" destination="BV1-FR-VrT" eventType="touchUpInside" id="SF4-a9-fiT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -171,6 +209,8 @@
                         <outlet property="informationLabel" destination="zQp-Ur-pkD" id="t3W-KG-67z"/>
                         <outlet property="label" destination="UbD-VU-q9V" id="BWd-1i-f5Q"/>
                         <outlet property="menuTableView" destination="Hj2-hG-JZF" id="d4i-BW-BB5"/>
+                        <outlet property="physicsMenuView" destination="DC9-al-fSL" id="ZTo-zN-xz0"/>
+                        <outlet property="physicsTimeSlider" destination="drw-uV-Ec8" id="S9d-Ci-ISw"/>
                         <outlet property="sceneView" destination="ekB-UG-M86" id="Og6-4T-k2P"/>
                         <outlet property="searchController" destination="iLu-rw-rof" id="NNu-i8-dUC"/>
                         <outlet property="searchDisplayController" destination="iLu-rw-rof" id="bpR-xe-FjQ"/>
