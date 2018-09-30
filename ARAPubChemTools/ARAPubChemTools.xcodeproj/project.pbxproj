@@ -32,6 +32,7 @@
 		EA3F86A5201F67C000F7CD23 /* ARAPubChemToolsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARAPubChemToolsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA3F86A7201F67C000F7CD23 /* ARAPubChemToolsOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARAPubChemToolsOSX.h; sourceTree = "<group>"; };
 		EA3F86A8201F67C000F7CD23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA520D6920E6894E00A06AEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EAAF1C0420263D1A0012149D /* ARACoreUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ARACoreUtils.swift; path = ../../ARACoreUtils/ARACoreUtils.swift; sourceTree = "<group>"; };
 		EAD7BFD3201D2472006E0A9B /* ARAPubChemTools.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ARAPubChemTools.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD7BFD6201D2472006E0A9B /* ARAPubChemTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARAPubChemTools.h; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 		EAC67646202527B300FF2542 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA520D6920E6894E00A06AEF /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -423,7 +425,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARAPubChemTools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos11.2;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macOS";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -450,7 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.orbitusbiomedical.ARAPubChemTools;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos11.2;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macOS";
 				SWIFT_VERSION = 4.0;
